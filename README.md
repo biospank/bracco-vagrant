@@ -25,3 +25,4 @@ A Vagrant server configuration
   ```shell
   $ vagrant halt
   ```
+5. Open link http://localhost:8080
