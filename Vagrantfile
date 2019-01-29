@@ -15,6 +15,10 @@ Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/xenial64"
   # config.vm.box = "bracco"
   config.vm.host_name = "bracco"
+  config.trigger.before :up do |trigger|
+    trigger.info = "Pulling master from origin..."
+    trigger.run = {inline: "git pull origin master"}
+  end
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs

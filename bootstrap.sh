@@ -39,9 +39,6 @@ print_db_usage () {
 
 export DEBIAN_FRONTEND=noninteractive
 
-echo "pulling master from origin..."
-git pull origin master
-
 PROVISIONED_ON=/etc/vm_provision_on_timestamp
 if [ -f "$PROVISIONED_ON" ]
 then
