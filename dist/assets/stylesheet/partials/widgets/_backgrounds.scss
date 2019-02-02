@@ -1,0 +1,20 @@
+.bg {
+  &--transparent {
+    background-color: transparent;
+  }
+  &--light {
+    background-color: rgba(255,255,255,.04) !important;
+  }
+  &--white {
+    background-color: white;
+  }
+  &--light-grey {
+    background-color: #F7F7FA;
+  }
+  &--dark {
+    background-color: rgba(0,0,0,.04) !important;
+  }
+  &--main {
+    background-color: $main-color;
+  }
+}

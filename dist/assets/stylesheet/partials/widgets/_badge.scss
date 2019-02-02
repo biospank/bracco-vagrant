@@ -1,0 +1,20 @@
+.badge {
+  &#{&}--white {
+    background: white;
+    color: rgba(0,0,0, 0.9);
+  }
+  &.dot {
+    $this: &;
+    display: inline-block;
+    @include radius(8px);
+    padding: 0;
+    @at-root {
+      #{$this}.top {
+        @include position(right, 2px, top, 4px);
+      }
+      #{$this}.bottom {
+        @include position(right, 2px, bottom, 4px);
+      }
+    }
+  }
+}
