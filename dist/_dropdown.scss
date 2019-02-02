@@ -1,0 +1,33 @@
+.dropdown-toggle {
+  &.hide-arrow {
+    &::after {
+        display:none;
+    }
+  }
+}
+
+.dropdown {
+  &-menu {
+    @include spaces(0, 0);
+    border: 0;
+    @include box-shadow(0 4px 8px -2px rgba(9,30,66,.25), 0 0 1px rgba(9,30,66,.31));
+    border-radius: 4px;
+    background-color: #fff;
+    &.arrow {
+      &:after {
+        position: absolute;
+        @include position(right, 9px, top, -9px);
+        content: "";
+        @include size(0, 0);
+        line-height: 0;
+        @include border(10px, white, bottom);
+        @include border(10px, transparent, left);
+        @include border(10px, transparent, right);
+      }
+    }
+  }
+  &-item {
+    padding-top: .50rem;
+    padding-bottom: .50rem;
+  }
+}
