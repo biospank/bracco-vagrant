@@ -20,11 +20,11 @@ SCRIPT_USER=vagrant # pi for raspberry
 PARAM2=whatever
 
 # In which directory is the shell script that this service will execute
-BRACCO_PUB_SUB_SCRIPT_DIR=/opt/bracco_pub_sub/bin
+BRACCO_PUB_SUB_SCRIPT_DIR=/opt/bracco_pub_sub
 
 # Construct the command the will cd into the right directory, and invoke the script
 #BRACCO_PUB_SUB_COMMAND="cd $BRACCO_PUB_SUB_SCRIPT_DIR && ./bracco_pub_sub 'param1' $PARAM2"
-BRACCO_PUB_SUB_COMMAND="cd $BRACCO_PUB_SUB_SCRIPT_DIR && ./bracco_pub_sub"
+BRACCO_PUB_SUB_COMMAND="cd $BRACCO_PUB_SUB_SCRIPT_DIR && ./bin/bracco_pub_sub"
 
 # How can the script be identified if it appears in a 'ps' command via grep?
 #  Examples to use are 'java', 'python' etc.

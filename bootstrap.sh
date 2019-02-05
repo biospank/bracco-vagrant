@@ -126,12 +126,12 @@ sudo update-rc.d http-server defaults
 sudo service http-server start
 
 # Download postgrest 5.2
-echo "downloading bracco_pub_sub 1.1.0.."
-wget -O bracco_pub_sub-v1.1.0.tar.gz https://github.com/biospank/bracco_pub_sub/releases/download/v1.0.0/bracco_pub_sub-v1.0.0.tar.gz > /dev/null 2>&1
+echo "downloading bracco_pub_sub 1.1.1.."
+wget -O bracco_pub_sub-v1.1.1.tar.gz https://github.com/biospank/bracco_pub_sub/releases/download/V1.1.1/bracco_pub_sub-v1.1.1.tar.gz > /dev/null 2>&1
 
 # unpack bracco pub sub tarball
 echo "unpack bracco_pub_sub tarball and setup elixir server..."
-sudo tar xzf bracco_pub_sub-v1.1.0.tar.gz -C /opt
+sudo tar xzf bracco_pub_sub-v1.1.1.tar.gz -C /opt
 
 # setting up bracco_pub_sub service
 echo "setting up bracco_pub_sub service..."
