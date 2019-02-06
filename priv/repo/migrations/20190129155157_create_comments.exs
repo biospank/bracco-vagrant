@@ -3,7 +3,7 @@ defmodule BraccoPubSub.Repo.Migrations.CreateComments do
 
   def change do
     create table(:comments) do
-      add(:body_text, :text, null: false)
+      add(:body_text, :text)
       add(:ticket_id, references(:tickets))
       add(:account_id, references(:accounts))
       add(:created_at, :timestamp, default: fragment("now()"))

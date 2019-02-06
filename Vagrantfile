@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
   config.vm.box = "ubuntu/xenial64"
-  # config.vm.box = "bracco"
+  # config.vm.box = "bracco-v1.0"
   config.vm.host_name = "bracco"
   config.trigger.before :up do |trigger|
     trigger.info = "Pulling master from origin..."
