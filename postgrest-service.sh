@@ -75,7 +75,7 @@ start() {
         fi
     fi
     echo -n "Starting postgrest: "
-    postgrest '/vagrant/bracco.conf' > /home/vagrant/postgrest.log 2>&1 & RETVAL=0
+    su - $SCRIPT_USER -c "/bin/sh -c \"$POSTGREST_COMMAND > $POSTGREST_SVC_LOG_FILE 2>&1\"" & RETVAL=$?
     sleep 3
     touch /var/lock/postgrestd
     exit 0
