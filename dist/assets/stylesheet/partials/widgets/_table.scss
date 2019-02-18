@@ -1,11 +1,24 @@
 .table {
   th {
-    font-size: 0.9rem;
+    font-size: 14px;
     padding: 12px 20px;
+    color: #8993a4;
+    font-weight: 200;
   }
   td {
     font-size: 0.8rem;
     padding: 10px 20px;
+  }
+  &-hover {
+    tr {
+      @include transition(all .3s ease-out);
+      &:hover {
+        background-color: #f4f5f7;
+      }
+      td {
+        border: none;
+      }
+    }
   }
   &-striped {
     &.avatar-list {

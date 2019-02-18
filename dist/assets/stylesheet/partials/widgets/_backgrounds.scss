@@ -17,4 +17,7 @@
   &--main {
     background-color: $main-color;
   }
+  &--light-main {
+    background-color: lighten($main-color,  40%);
+  }
 }
