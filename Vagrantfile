@@ -18,6 +18,11 @@ Vagrant.configure("2") do |config|
   config.trigger.before :up do |trigger|
     trigger.info = "Pulling master from origin..."
     trigger.run = {inline: "git pull origin master"}
+    # use gitbash command prompt on windows!!
+    # trigger.info = "convert dos2unix shell script..."
+    # trigger.run = {inline: "dos2unix postgrest-service.sh"}
+    # trigger.run = {inline: "dos2unix nodejs-http-service.sh"}
+    # trigger.run = {inline: "dos2unix bracco-pub-sub-service.sh"}
   end
 
   # Disable automatic box update checking. If you disable this, then
