@@ -93,6 +93,21 @@ CREATE DATABASE $APP_DB_NAME WITH OWNER=$APP_DB_USER
                                   TEMPLATE=template0;
 EOF
 
+# Download postgrest 5.2
+echo "downloading Postgrest 5.2..."
+wget -O postgrest-v5.2.0-ubuntu.tar.xz https://github.com/PostgREST/postgrest/releases/download/v5.2.0/postgrest-v5.2.0-ubuntu.tar.xz > /dev/null 2>&1
+
+# unpack tarball
+echo "unpack tarball and setup rest server..."
+sudo tar Jxf postgrest-v5.2.0-ubuntu.tar.xz -C /usr/local/bin
+
+# setting up postgrest service
+echo "setting up postgrest service..."
+sudo cp /vagrant/postgrest-service.sh /etc/init.d/postgrest
+sudo chmod 755 /etc/init.d/postgrest
+sudo update-rc.d postgrest defaults
+sudo service postgrest start
+
 # configure ppa and install nodejs 8.x
 echo "configuring ppa and install nodejs 8.x..."
 curl -sL https://deb.nodesource.com/setup_8.x -o nodesource_setup.sh
@@ -104,13 +119,13 @@ echo "installing nodejs http server..."
 sudo npm install http-server -g
 
 # setting up nodejs http service
-echo "segging up nodejs http service..."
+echo "setting up nodejs http service..."
 sudo cp /vagrant/nodejs-http-service.sh /etc/init.d/http-server
 sudo chmod 755 /etc/init.d/http-server
 sudo update-rc.d http-server defaults
 sudo service http-server start
 
-# Download bracco pub sub 1.1.1
+# Download bracco_pub_sub 1.1.1
 echo "downloading bracco_pub_sub 1.1.1.."
 wget -O bracco_pub_sub-v1.1.1.tar.gz https://github.com/biospank/bracco_pub_sub/releases/download/V1.1.1/bracco_pub_sub-v1.1.1.tar.gz > /dev/null 2>&1
 
@@ -124,21 +139,6 @@ sudo cp /vagrant/bracco-pub-sub-service.sh /etc/init.d/bracco_pub_sub
 sudo chmod 755 /etc/init.d/bracco_pub_sub
 sudo update-rc.d bracco_pub_sub defaults
 sudo service bracco_pub_sub start
-
-# Download postgrest 5.2
-echo "downloading Postgrest 5.2..."
-wget -O postgrest-v5.2.0-ubuntu.tar.xz https://github.com/PostgREST/postgrest/releases/download/v5.2.0/postgrest-v5.2.0-ubuntu.tar.xz > /dev/null 2>&1
-
-# unpack tarball
-echo "unpack tarball and setup rest server..."
-sudo tar Jxf postgrest-v5.2.0-ubuntu.tar.xz -C /usr/local/bin
-
-# setting up postgrest service
-echo "segging up postgrest service..."
-sudo cp /vagrant/postgrest-service.sh /etc/init.d/postgrest
-sudo chmod 755 /etc/init.d/postgrest
-sudo update-rc.d postgrest defaults
-sudo service postgrest start
 
 # Tag the provision time:
 date > "$PROVISIONED_ON"
