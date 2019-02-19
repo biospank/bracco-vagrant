@@ -104,6 +104,7 @@ sudo tar Jxf postgrest-v5.2.0-ubuntu.tar.xz -C /usr/local/bin
 # setting up postgrest service
 echo "setting up postgrest service..."
 sudo cp /vagrant/postgrest-service.sh /etc/init.d/postgrest
+sudo cp /vagrant/bracco.conf /home/vagrant
 sudo chmod 755 /etc/init.d/postgrest
 sudo update-rc.d postgrest defaults
 sudo service postgrest start
