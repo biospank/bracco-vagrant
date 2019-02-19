@@ -24,7 +24,7 @@ POSTGREST_SCRIPT_DIR=/home/vagrant
 
 # Construct the command the will cd into the right directory, and invoke the script
 #POSTGREST_COMMAND="cd $POSTGREST_SCRIPT_DIR && ./http_server.sh 'param1' $PARAM2"
-POSTGREST_COMMAND="cd $POSTGREST_SCRIPT_DIR && postgrest '/vagrant/bracco.conf'"
+POSTGREST_COMMAND="postgrest '/vagrant/bracco.conf'"
 
 # How can the script be identified if it appears in a 'ps' command via grep?
 #  Examples to use are 'java', 'python' etc.
