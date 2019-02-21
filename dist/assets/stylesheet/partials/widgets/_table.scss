@@ -10,6 +10,23 @@
     padding: 10px 20px;
   }
   &-hover {
+    &.avatar-list {
+      tbody {
+        tr {
+          &:nth-child(odd) {
+            background: #f2f2f2;
+            .avatar {
+              @include border(2px, #f2f2f2);
+            }
+          }
+          &:nth-child(even) {
+            .avatar {
+              @include border(2px, white);
+            }
+          }
+        }
+      }
+    }
     tr {
       @include transition(all .3s ease-out);
       &:hover {

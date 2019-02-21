@@ -50,11 +50,18 @@
 }
 
 @mixin transition($transition...) {
-    -moz-transition:    $transition;
-    -o-transition:      $transition;
-    -webkit-transition: $transition;
-    transition:         $transition;
+  -moz-transition:    $transition;
+  -o-transition:      $transition;
+  -webkit-transition: $transition;
+  transition:         $transition;
 }
+
+@mixin transform($transform...) {
+  transform: $transform;
+  -ms-transform: $transform; /* prefix for IE 9 */
+  -webkit-transform: $transform; /* prefix for Safari and Chrome */
+}
+
 
 @mixin placeholder($color: $input-color-placeholder) {
   // Firefox
