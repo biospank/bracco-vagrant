@@ -1,6 +1,6 @@
 .bg {
   &--transparent {
-    background-color: transparent;
+    background-color: transparent!important;
   }
   &--light {
     background-color: rgba(255,255,255,.04) !important;
@@ -19,5 +19,8 @@
   }
   &--light-main {
     background-color: lighten($main-color,  40%);
+  }
+  &--red {
+    background-color: red;
   }
 }

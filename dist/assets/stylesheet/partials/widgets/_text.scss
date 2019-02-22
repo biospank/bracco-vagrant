@@ -3,7 +3,7 @@
     text-shadow: 1px 0px 3px #444;
   }
   &--main_color {
-    color: $main-color;
+    color: $main-color!important;
   }
   &--white {
     color: white;

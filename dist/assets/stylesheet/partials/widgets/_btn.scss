@@ -8,6 +8,9 @@
   &--light {
     border-color: #e5e3e4 !important;
   }
+  &--clickable {
+    cursor: pointer;
+  }
   &--minimal {
     min-width: 40px;
     padding-left: 10px;

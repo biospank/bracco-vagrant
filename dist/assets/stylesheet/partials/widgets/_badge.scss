@@ -16,5 +16,17 @@
         @include position(right, 2px, bottom, 4px);
       }
     }
+    &.animation {
+      @include animation(pulse 1s infinite);
+    }
+  }
+}
+
+@keyframes pulse {
+  0% {
+    background-color: $main-color;
+  }
+  100% {
+    background-color: transparent;
   }
 }
