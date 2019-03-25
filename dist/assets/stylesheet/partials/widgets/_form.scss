@@ -1,8 +1,12 @@
 form {
   @at-root {
     .#{&}-control {
-      &.height-auto {
+      &.height--auto {
         height: auto;
+        &[contenteditable=true] {
+          border-color: #80bdff;
+          @include box-shadow(0 0 0 0.2rem rgba(0,123,255,.25));
+        }
       }
       &.round_edges {
         border-radius: 100px;
@@ -50,6 +54,9 @@ form {
           }
         }
         .form-control {
+          &.height--auto {
+            height: auto;
+          }
           border-radius: 100px;
           &:focus {
             outline-offset: 0;
