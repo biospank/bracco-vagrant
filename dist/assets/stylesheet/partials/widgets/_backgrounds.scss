@@ -1,24 +1,50 @@
+@import "../../../../assets/stylesheet/mixin/custom-mixin";
+
 .bg {
   &--transparent {
     background-color: transparent!important;
   }
   &--light {
     background-color: rgba(255,255,255,.04) !important;
+    &.hover {
+      @include transition(all .3s ease-out);
+      &:hover {
+        background-color: darken(rgba(255,255,255,.04), 10%);
+      }
+    }
   }
   &--white {
     background-color: white !important;
   }
   &--light-grey {
     background-color: #F7F7FA;
+    &.hover {
+      @include transition(all .3s ease-out);
+      &:hover {
+        background-color: darken(#F7F7FA, 10%);
+      }
+    }
   }
   &--dark {
     background-color: rgba(0,0,0,.04) !important;
   }
   &--main {
     background-color: $main-color;
+    &.hover {
+      @include transition(all .3s ease-out);
+      &:hover {
+        background-color: darken($main-color, 10%);
+      }
+    }
   }
   &--light-main {
     background-color: lighten($main-color,  40%);
+    &.hover {
+      @include transition(all .3s ease-out);
+      &:hover {
+        background-color: darken($main-color, 10%);
+      }
+    }
   }
   &--red {
     background-color: red;
