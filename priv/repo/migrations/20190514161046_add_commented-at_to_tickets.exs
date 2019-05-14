@@ -1,4 +1,4 @@
-defmodule BraccoPubSub.Repo.Migrations.AddReadToNotes do
+defmodule BraccoPubSub.Repo.Migrations.AddCommentedatToTickets do
   use Ecto.Migration
 
   def change do
