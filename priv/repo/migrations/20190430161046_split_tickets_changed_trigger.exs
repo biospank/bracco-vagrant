@@ -1,4 +1,4 @@
-defmodule BraccoPubSub.Repo.Migrations.TriggerSetup do
+defmodule BraccoPubSub.Repo.Migrations.SplitTicketsChangedTrigger do
   use Ecto.Migration
 
   def change do
@@ -21,11 +21,6 @@ defmodule BraccoPubSub.Repo.Migrations.TriggerSetup do
       FOR EACH ROW
       WHEN (OLD.updated_at IS DISTINCT FROM NEW.updated_at)
       EXECUTE PROCEDURE notify_ticket_changes();
-    """
-
-    execute """
-      DROP TRIGGER comments_changed ON comments;
-      DROP FUNCTION notify_comment_changes();
     """
   end
 end
