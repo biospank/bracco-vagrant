@@ -5710,7 +5710,7 @@ var TicketAddComponent = /** @class */ (function () {
 /***/ "./src/app/components/tickets/archived/archived.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid pboth-20 pl-0 pr-0\">\n  <div class=\"d-flex align-items-center mb-20\">\n    <h3 class=\"weight--light flex-fill mb-0\">I tuoi tickets archiviati</h3>\n    <a [routerLink]=\"['/tickets/add']\" class=\"btn btn--shadow btn-dark text-uppercase weight--light d-flex align-items-center pt-10 pb-10\">\n      Aggiungi ticket\n    </a>\n  </div>\n  <div class=\"mb-10\">\n    <filter-form (list)=\"tickets = $event\" (page)=\"p = $event\" [account_profile]=\"account.profile\" [account_id]=\"account.id\" [archived]=\"true\" [filter_store]=\"false\"></filter-form>\n  </div>\n  <div class=\"card light mb-4 p-all-side-25\">\n    <table class=\"table table-hover table-striped avatar-list mb-0\" *ngIf=\"tickets.length; else noTickets\">\n      <thead class=\"thead--dark\">\n        <tr>\n          <th>Assegnato a</th>\n          <th>Assegnato da</th>\n          <th>Titolo</th>\n          <th></th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr [tickets]=\"tickets\" [ticket]=\"ticket\" [account_id]=\"account.id\" [account_profile]=\"account.profile\" *ngFor=\"let ticket of tickets | paginate: { id: 'tickets-archived', itemsPerPage: 10, currentPage: p }\" archived-tickets-row></tr>\n      </tbody>\n    </table>\n    <ng-template #noTickets>\n      <message-notrecords [message]=\"'Oppsss....Non sono presenti records salvati nel database'\" [icon]=\"'empty_list'\"></message-notrecords>\n    </ng-template>\n    <div class=\"d-flex justify-content-center\" *ngIf=\"tickets.length > 10\">\n      <pagination-controls class=\"pagination\" id=\"tickets-archived\" previousLabel=\"Precedente\" nextLabel=\"Successivo\" (pageChange)=\"p = $event\"></pagination-controls>\n    </div>\n  </div>\n  <back-button></back-button>\n</div>\n"
+module.exports = "<div class=\"container-fluid pboth-20 pl-0 pr-0\">\n  <div class=\"d-flex align-items-center mb-20\">\n    <h3 class=\"weight--light flex-fill mb-0\">I tuoi tickets archiviati</h3>\n    <a [routerLink]=\"['/tickets/add']\" class=\"btn btn--shadow btn-dark text-uppercase weight--light d-flex align-items-center pt-10 pb-10\">\n      Aggiungi ticket\n    </a>\n  </div>\n  <div class=\"mb-10\">\n    <filter-form (list)=\"tickets = $event\" (page)=\"p = $event\" [account_profile]=\"account.profile\" [account_id]=\"account.id\" [archived]=\"true\" [filter_store]=\"false\"></filter-form>\n  </div>\n  <div class=\"card light mb-4 p-all-side-25\">\n    <table class=\"table table-hover table-striped avatar-list mb-0\" *ngIf=\"tickets.length; else noTickets\">\n      <thead class=\"thead--dark\">\n        <tr>\n          <th>Assegnato a</th>\n          <th>Assegnato da</th>\n          <th>Titolo</th>\n          <th>Stato</th>\n          <th></th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr [tickets]=\"tickets\" [ticket]=\"ticket\" [account_id]=\"account.id\" [account_profile]=\"account.profile\" *ngFor=\"let ticket of tickets | paginate: { id: 'tickets-archived', itemsPerPage: 10, currentPage: p }\" archived-tickets-row></tr>\n      </tbody>\n    </table>\n    <ng-template #noTickets>\n      <message-notrecords [message]=\"'Oppsss....Non sono presenti records salvati nel database'\" [icon]=\"'empty_list'\"></message-notrecords>\n    </ng-template>\n    <div class=\"d-flex justify-content-center\" *ngIf=\"tickets.length > 10\">\n      <pagination-controls class=\"pagination\" id=\"tickets-archived\" previousLabel=\"Precedente\" nextLabel=\"Successivo\" (pageChange)=\"p = $event\"></pagination-controls>\n    </div>\n  </div>\n  <back-button></back-button>\n</div>\n"
 
 /***/ }),
 
@@ -5824,7 +5824,7 @@ var TicketArchivedComponent = /** @class */ (function () {
 /***/ "./src/app/components/tickets/archived/row/row.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<td class=\"text-capitalize align-middle\">\n  <ng-container *ngFor=\"let account of ticket.accounts; index as i\">\n    <ng-container *ngIf=\"i <= 2\">\n      <span class=\"avatar avatar--inline radius small\" [style.background]=\"account.avatar_color\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"{{account.firstname}} {{account.lastname}}\">\n        {{account.firstname | slice:0:1}}\n      </span>\n    </ng-container>\n  </ng-container>\n  <ng-container *ngIf=\"ticket.accounts.length == 0\">\n    <p class=\"mb-0\">Nessun utente</p>\n  </ng-container>\n  <ng-container *ngIf=\"ticket.accounts.length > 3\">\n    <span class=\"navbar-notification nav-item dropdown\">\n      <a class=\"avatar radius small\" style=\"background: white\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n        + {{ticket.accounts.length - 3}}\n      </a>\n      <div class=\"dropdown-menu p-all-side-5 mt-5\">\n        <ng-container *ngFor=\"let account of ticket.accounts; index as i\">\n          <p *ngIf=\"i > 2\" class=\"mb-0\">\n            <span class=\"avatar radius small mr-2\" [style.background]=\"account.avatar_color\">\n              {{account.firstname | slice:0:1}}\n            </span>\n            <small>{{account.firstname}} {{account.lastname}}</small>\n          </p>\n        </ng-container>\n      </div>\n    </span>\n  </ng-container>\n</td>\n<td class=\"text-capitalize align-middle\">\n  {{ticket.reporter.firstname}} {{ticket.reporter.lastname}}\n</td>\n<td class=\"text-capitalize align-middle\">{{ticket.title}}</td>\n<td class=\"text-right\">\n  <button [ngClass]=\"{ 'disabled': ticket.created_by != account_id && account_profile != 0 }\"\n    class=\"btn btn--minimal warning\" title=\"Ripristina\"\n    [swal]=\"{ title: 'Sei sicuro di volerlo ripristinare', showCancelButton: true }\" (confirm)=\"rollbackIt()\">\n    <i class=\"fa fa-reply\" aria-hidden=\"true\"></i>\n  </button>\n  <button [ngClass]=\"{ 'disabled': ticket.created_by != account_id && account_profile != 0 }\"\n    class=\"btn btn--minimal danger\" title=\"Cancella definitivamente\"\n    [swal]=\"{ title: 'Sei sicuro di volerlo cancellare', text: 'Non sarà più possibile recuperarlo.', showCancelButton: true }\" (confirm)=\"deleteIt()\">\n    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n  </button>\n</td>\n"
+module.exports = "<td class=\"text-capitalize align-middle\">\n  <ng-container *ngFor=\"let account of ticket.accounts; index as i\">\n    <ng-container *ngIf=\"i <= 2\">\n      <span class=\"avatar avatar--inline radius small\" [style.background]=\"account.avatar_color\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"{{account.firstname}} {{account.lastname}}\">\n        {{account.firstname | slice:0:1}}\n      </span>\n    </ng-container>\n  </ng-container>\n  <ng-container *ngIf=\"ticket.accounts.length == 0\">\n    <p class=\"mb-0\">Nessun utente</p>\n  </ng-container>\n  <ng-container *ngIf=\"ticket.accounts.length > 3\">\n    <span class=\"navbar-notification nav-item dropdown\">\n      <a class=\"avatar radius small\" style=\"background: white\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n        + {{ticket.accounts.length - 3}}\n      </a>\n      <div class=\"dropdown-menu p-all-side-5 mt-5\">\n        <ng-container *ngFor=\"let account of ticket.accounts; index as i\">\n          <p *ngIf=\"i > 2\" class=\"mb-0\">\n            <span class=\"avatar radius small mr-2\" [style.background]=\"account.avatar_color\">\n              {{account.firstname | slice:0:1}}\n            </span>\n            <small>{{account.firstname}} {{account.lastname}}</small>\n          </p>\n        </ng-container>\n      </div>\n    </span>\n  </ng-container>\n</td>\n<td class=\"text-capitalize align-middle\">\n  {{ticket.reporter.firstname}} {{ticket.reporter.lastname}}\n</td>\n<td class=\"text-capitalize align-middle\">{{ticket.title}}</td>\n<td class=\"text-capitalize align-middle\">\n  <switch-status [status]=\"ticket.status\"></switch-status>\n</td>\n<td class=\"text-right\">\n  <button [ngClass]=\"{ 'disabled': ticket.created_by != account_id && account_profile != 0 }\"\n    class=\"btn btn--minimal warning\" title=\"Ripristina\"\n    [swal]=\"{ title: 'Sei sicuro di volerlo ripristinare', showCancelButton: true }\" (confirm)=\"rollbackIt()\">\n    <i class=\"fa fa-reply\" aria-hidden=\"true\"></i>\n  </button>\n  <button [ngClass]=\"{ 'disabled': ticket.created_by != account_id && account_profile != 0 }\"\n    class=\"btn btn--minimal danger\" title=\"Cancella definitivamente\"\n    [swal]=\"{ title: 'Sei sicuro di volerlo cancellare', text: 'Non sarà più possibile recuperarlo.', showCancelButton: true }\" (confirm)=\"deleteIt()\">\n    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n  </button>\n</td>\n"
 
 /***/ }),
 
@@ -6645,6 +6645,7 @@ var TicketDetailsComponent = /** @class */ (function () {
     };
     TicketDetailsComponent.prototype.onSelectionChange = function (form) {
         var _this = this;
+        console.log(form.value);
         var form_copy = Object.assign({}, form.value);
         //let form_copy: any = new Object(form.value);
         delete form_copy['assignee_id'];
@@ -6653,6 +6654,10 @@ var TicketDetailsComponent = /** @class */ (function () {
         form_copy.read_by = '{}';
         this.ticket.read_by = [];
         var query = "id=eq." + this.ticket.id;
+        // if ticket status is equal to 'rigettato' or 'terminato' archive it
+        if (form_copy.status == 3 || form_copy.status == 4) {
+            form_copy.archived = true;
+        }
         var subscription = this.service.update("tickets", query, form_copy).subscribe(function (data) {
             _this.messageService.setMessage('success');
             _this.ticket.read_by = [];
@@ -6830,7 +6835,7 @@ var TicketDetailsComponent = /** @class */ (function () {
 /***/ "./src/app/components/tickets/filter-form/filter-form.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<form #filtering=\"ngForm\" name=\"form\" class=\"filtering form-inline form--light\">\n  <div class=\"form-row align-items-end\">\n    <div class=\"col-auto\" *ngIf=\"account_profile == 0\">\n      <label class=\"justify-content-start mb-10\">Assegnato da</label>\n      <select id=\"created_by\" class=\"filtering__field form-control mb-2\" #created_by [(ngModel)]=\"filter_settings.created_by\" name=\"created_by\" (change)=\"setFilterInStorage(filtering)\">\n        <option value=\"\" disabled>Seleziona</option>\n        <option *ngFor=\"let account of accounts\" value=\"{{account.id}}\" class=\"text-capitalize\">\n          {{account.firstname}} {{account.lastname}}\n        </option>\n        <option value=\"all\">Tutti</option>\n      </select>\n    </div>\n    <div class=\"col-auto\">\n      <label class=\"justify-content-start mb-10\">Assegnato a</label>\n      <select id=\"assignees_id\" class=\"filtering__field form-control mb-2\" [(ngModel)]=\"filter_settings.assignees_id\" name=\"assignees_id\" (change)=\"setFilterInStorage(filtering)\">\n        <option value=\"\" disabled>Seleziona</option>\n        <option *ngFor=\"let account of accounts\" value=\"{{account.id}}\" class=\"text-capitalize\">\n          {{account.firstname}} {{account.lastname}} <span *ngIf=\"account.status == 0\">NA</span>\n        </option>\n        <option value=\"all\">Tutti</option>\n      </select>\n    </div>\n    <div class=\"col-auto\">\n      <label class=\"justify-content-start mb-10\">Stato</label>\n      <select id=\"status\" class=\"filtering__field form-control mb-2\" [(ngModel)]=\"filter_settings.status\" name=\"status\" (change)=\"setFilterInStorage(filtering)\">\n        <option value=\"\" disabled>Seleziona</option>\n        <option value=\"0\">Da lavorare</option>\n        <option value=\"1\">In lavorazione</option>\n        <option value=\"2\">In fase di controllo</option>\n        <option value=\"3\">Terminata</option>\n        <option value=\"4\">Rigettata</option>\n        <option value=\"5\">Non ancora letto</option>\n        <option value=\"6\">Letto</option>\n      </select>\n    </div>\n    <div class=\"col-auto\">\n      <button type=\"button\" (click)=\"resetFilter(filtering)\" class=\"filtering__btn btn btn-link text--main_color mb-2\">\n        <i class=\"fa fa-times\" aria-hidden=\"true\"></i>\n        Annulla\n      </button>\n    </div>\n  </div>\n</form>\n"
+module.exports = "<form #filtering=\"ngForm\" name=\"form\" class=\"filtering form-inline form--light\">\n  <div class=\"form-row align-items-end\">\n    <div class=\"col-auto\" *ngIf=\"account_profile == 0\">\n      <label class=\"justify-content-start mb-10\">Assegnato da</label>\n      <select id=\"created_by\" class=\"filtering__field form-control mb-2\" #created_by [(ngModel)]=\"filter_settings.created_by\" name=\"created_by\" (change)=\"setFilterInStorage(filtering)\">\n        <option value=\"\" disabled>Seleziona</option>\n        <option *ngFor=\"let account of accounts\" value=\"{{account.id}}\" class=\"text-capitalize\">\n          {{account.firstname}} {{account.lastname}}\n        </option>\n        <option value=\"all\">Tutti</option>\n      </select>\n    </div>\n    <div class=\"col-auto\">\n      <label class=\"justify-content-start mb-10\">Assegnato a</label>\n      <select id=\"assignees_id\" class=\"filtering__field form-control mb-2\" [(ngModel)]=\"filter_settings.assignees_id\" name=\"assignees_id\" (change)=\"setFilterInStorage(filtering)\">\n        <option value=\"\" disabled>Seleziona</option>\n        <option *ngFor=\"let account of accounts\" value=\"{{account.id}}\" class=\"text-capitalize\">\n          {{account.firstname}} {{account.lastname}} <span *ngIf=\"account.status == 0\">NA</span>\n        </option>\n        <option value=\"all\">Tutti</option>\n      </select>\n    </div>\n    <div class=\"col-auto\">\n      <label class=\"justify-content-start mb-10\">Stato</label>\n      <select id=\"status\" class=\"filtering__field form-control mb-2\" [(ngModel)]=\"filter_settings.status\" name=\"status\" (change)=\"setFilterInStorage(filtering)\">\n        <option value=\"\" disabled>Seleziona</option>\n        <option value=\"0\">Da lavorare</option>\n        <option value=\"1\">In lavorazione</option>\n        <option value=\"2\">In fase di controllo</option>\n        <ng-container *ngIf=\"archived == true\">\n          <option value=\"3\">Terminata</option>\n          <option value=\"4\">Rigettata</option>\n        </ng-container>\n        <option value=\"5\">Non ancora letto</option>\n        <option value=\"6\">Letto</option>\n      </select>\n    </div>\n    <div class=\"col-auto\">\n      <button type=\"button\" (click)=\"resetFilter(filtering)\" class=\"filtering__btn btn btn-link text--main_color mb-2\">\n        <i class=\"fa fa-times\" aria-hidden=\"true\"></i>\n        Annulla\n      </button>\n    </div>\n  </div>\n</form>\n"
 
 /***/ }),
 
@@ -6914,9 +6919,12 @@ var FilterFormComponent = /** @class */ (function () {
         this.sendRequest(this.urlComposition(return_not_empty_params));
     };
     FilterFormComponent.prototype.urlComposition = function (data) {
+        console.log(data);
         var query = "archived=" + "is." + this.archived;
         if (!this.checkObject.isBlank(data)) {
+            console.log("79");
             if (data["assignees_id"] !== "all" && data["assignees_id"] !== undefined) {
+                console.log("81");
                 var copy = Object.assign({}, data);
                 if (data["created_by"] == "all") {
                     delete copy["created_by"];
@@ -6932,6 +6940,7 @@ var FilterFormComponent = /** @class */ (function () {
                 }
             }
             else if (data["created_by"] !== "all" && data["created_by"] !== undefined) {
+                console.log("95");
                 var copy = Object.assign({}, data);
                 if (data["assignees_id"] == "all") {
                     delete copy["assignees_id"];
@@ -6942,13 +6951,14 @@ var FilterFormComponent = /** @class */ (function () {
                 }
             }
             else {
+                console.log("101");
                 if (data["status"]) {
+                    console.log("contiene l'attributo status");
                     var obj = {
                         "status": data["status"]
                     };
                     query += "&" + this.buildUrl.build(obj);
                 }
-                ;
                 if (this.account_profile != 0) {
                     // it takes all tickets that I've assigned and all tickets that other has assigned to me
                     //query += "&" + "or=(" + "created_by.eq." + this.account_id + "," + "assignees_id.cs." + "{" + this.account_id + "}" + ")"
@@ -6958,8 +6968,9 @@ var FilterFormComponent = /** @class */ (function () {
                 }
             }
         }
+        // "&and=(" + "status.neq." + 3 + "," + "status.neq." + 4 + ")" +
         query += "&order=" + "commented_at.desc" + "&select=*, reporter: accounts(id, firstname, lastname)";
-        //console.log(query);
+        console.log(query);
         return query;
     };
     FilterFormComponent.prototype.sendRequest = function (query) {
