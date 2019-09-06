@@ -465,6 +465,7 @@ var AppComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_102__components_notes_noteshome_noteshome_component__ = __webpack_require__("./src/app/components/notes/noteshome/noteshome.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_103__components_address_book_addressbookhome_addressbookhome_component__ = __webpack_require__("./src/app/components/address-book/addressbookhome/addressbookhome.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_104__components_documents_documentshome_documentshome_component__ = __webpack_require__("./src/app/components/documents/documentshome/documentshome.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_105__components_widgets_navigator_navigator_component__ = __webpack_require__("./src/app/components/widgets/navigator/navigator.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -586,6 +587,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 var DEFAULT_PERFECT_SCROLLBAR_CONFIG = {
     suppressScrollX: true
 };
@@ -672,7 +674,8 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_101__components_tickets_ticketshome_ticketshome_component__["a" /* TicketshomeComponent */],
                 __WEBPACK_IMPORTED_MODULE_102__components_notes_noteshome_noteshome_component__["a" /* NoteshomeComponent */],
                 __WEBPACK_IMPORTED_MODULE_103__components_address_book_addressbookhome_addressbookhome_component__["a" /* AddressbookhomeComponent */],
-                __WEBPACK_IMPORTED_MODULE_104__components_documents_documentshome_documentshome_component__["a" /* DocumentshomeComponent */]
+                __WEBPACK_IMPORTED_MODULE_104__components_documents_documentshome_documentshome_component__["a" /* DocumentshomeComponent */],
+                __WEBPACK_IMPORTED_MODULE_105__components_widgets_navigator_navigator_component__["a" /* NavigatorComponent */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -5710,7 +5713,7 @@ var TicketAddComponent = /** @class */ (function () {
 /***/ "./src/app/components/tickets/archived/archived.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid pboth-20 pl-0 pr-0\">\n  <div class=\"d-flex align-items-center mb-20\">\n    <h3 class=\"weight--light flex-fill mb-0\">I tuoi tickets archiviati</h3>\n    <a [routerLink]=\"['/tickets/add']\" class=\"btn btn--shadow btn-dark text-uppercase weight--light d-flex align-items-center pt-10 pb-10\">\n      Aggiungi ticket\n    </a>\n  </div>\n  <div class=\"mb-10\">\n    <filter-form (list)=\"tickets = $event\" (page)=\"p = $event\" [account_profile]=\"account.profile\" [account_id]=\"account.id\" [archived]=\"true\" [filter_store]=\"false\"></filter-form>\n  </div>\n  <div class=\"card light mb-4 p-all-side-25\">\n    <table class=\"table table-hover table-striped avatar-list mb-0\" *ngIf=\"tickets.length; else noTickets\">\n      <thead class=\"thead--dark\">\n        <tr>\n          <th>Assegnato a</th>\n          <th>Assegnato da</th>\n          <th>Titolo</th>\n          <th>Stato</th>\n          <th></th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr [tickets]=\"tickets\" [ticket]=\"ticket\" [account_id]=\"account.id\" [account_profile]=\"account.profile\" *ngFor=\"let ticket of tickets | paginate: { id: 'tickets-archived', itemsPerPage: 10, currentPage: p }\" archived-tickets-row></tr>\n      </tbody>\n    </table>\n    <ng-template #noTickets>\n      <message-notrecords [message]=\"'Oppsss....Non sono presenti records salvati nel database'\" [icon]=\"'empty_list'\"></message-notrecords>\n    </ng-template>\n    <div class=\"d-flex justify-content-center\" *ngIf=\"tickets.length > 10\">\n      <pagination-controls class=\"pagination\" id=\"tickets-archived\" previousLabel=\"Precedente\" nextLabel=\"Successivo\" (pageChange)=\"p = $event\"></pagination-controls>\n    </div>\n  </div>\n  <back-button></back-button>\n</div>\n"
+module.exports = "<div class=\"container-fluid pboth-20 pl-0 pr-0\">\n  <div class=\"d-flex align-items-center mb-20\">\n    <h3 class=\"weight--light flex-fill mb-0\">I tuoi tickets archiviati</h3>\n    <a [routerLink]=\"['/tickets/add']\" class=\"btn btn--shadow btn-dark text-uppercase weight--light d-flex align-items-center pt-10 pb-10\">\n      Aggiungi ticket\n    </a>\n  </div>\n  <div class=\"d-flex align-items-end justify-content-between mb-15\">\n    <filter-form (list)=\"tickets = $event\" (page)=\"p = $event\" [account_profile]=\"account.profile\" [account_id]=\"account.id\" [archived]=\"true\" [filter_store]=\"false\"></filter-form>\n    <div>\n      <p class=\"mb-0 pt-10 pb-10\">Numero di tickets archiviati <strong>{{tickets.length}}</strong></p>\n    </div>\n  </div>\n  <div class=\"card light mb-4 p-all-side-25\">\n    <table class=\"table table-hover table-striped avatar-list mb-0\" *ngIf=\"tickets.length; else noTickets\">\n      <thead class=\"thead--dark\">\n        <tr>\n          <th>Assegnato a</th>\n          <th>Assegnato da</th>\n          <th>Titolo</th>\n          <th>Stato</th>\n          <th></th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr [tickets]=\"tickets\" [ticket]=\"ticket\" [account_id]=\"account.id\" [account_profile]=\"account.profile\" *ngFor=\"let ticket of tickets | paginate: { id: 'tickets-archived', itemsPerPage: 10, currentPage: p }\" archived-tickets-row></tr>\n      </tbody>\n    </table>\n    <ng-template #noTickets>\n      <message-notrecords [message]=\"'Oppsss....Non sono presenti records salvati nel database'\" [icon]=\"'empty_list'\"></message-notrecords>\n    </ng-template>\n    <div class=\"d-flex justify-content-center\" *ngIf=\"tickets.length > 10\">\n      <pagination-controls class=\"pagination\" id=\"tickets-archived\" previousLabel=\"Precedente\" nextLabel=\"Successivo\" (pageChange)=\"p = $event\"></pagination-controls>\n    </div>\n  </div>\n  <back-button></back-button>\n</div>\n"
 
 /***/ }),
 
@@ -5773,7 +5776,8 @@ var TicketArchivedComponent = /** @class */ (function () {
     TicketArchivedComponent.prototype.getArchivedTickets = function () {
         var _this = this;
         var _self = this;
-        var query = "assignees_id=cs." + "{" + this.account.id + "}" + "&archived=" + "is.true" + "&order=" + "id.desc" + "&select=*, reporter: accounts(id, firstname, lastname)";
+        //let query: string = "assignees_id=cs." + "{" + this.account.id + "}" + "&archived=" + "is.true" + "&order=" + "id.desc" + "&select=*, reporter: accounts(id, firstname, lastname)";
+        var query = "or=(" + "created_by.eq." + this.account.id + "," + "assignees_id.cs." + "{" + this.account.id + "}" + ")" + "{" + this.account.id + "}" + "&archived=" + "is.true" + "&order=" + "id.desc" + "&select=*, reporter: accounts(id, firstname, lastname)";
         var subscription = this.service.getRecords("tickets", query).subscribe(function (data) {
             _this.tickets = data.map(function (ticket) {
                 ticket.accounts = ticket.assignees_id.map(function (assignee_id) {
@@ -6464,7 +6468,7 @@ var CommentService = /** @class */ (function () {
 /***/ "./src/app/components/tickets/details/details.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid p-all-side-40\">\n  <div class=\"alert alert-danger mb-20\" role=\"alert\" *ngIf=\"deadline_at <= 0\">\n    Questa issue è scaduta, ma ancora attiva. Ti consigliamo di archiviarla se non più utilizzata.\n  </div>\n  <div class=\"card light mb-4\">\n    <div class=\"clearfix bg--light-grey rounded\">\n      <section class=\"col-9 pull-left p-all-side-25 bg--white border-right rounded-left rounded-bottom\" style=\"min-height: 810px;\">\n        <div class=\"mb-40\">\n          <div class=\"row d-flex align-items-center\">\n            <div class=\"col\">\n              <p class=\"mb-0\">\n                <i class=\"fa fa-square text-success mr-1\"></i> <span class=\"text-black-50\">TICKET-{{ticket.id}}</span>\n              </p>\n            </div>\n            <!-- *ngIf=\"ticket.reporter.id == account.id || account.profile == 0\" -->\n            <ng-container *ngIf=\"ticket.reporter\">\n              <div class=\"col text-right\" *ngIf=\"ticket.reporter.id == account.id || account.profile == 0\">\n                <a href=\"\" class=\"dropdown-toggle hide-arrow btn btn-main btn--radius text--white\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                  <div class=\"d-inline-flex align-items-center align-middle\">\n                    <i class=\"fa fa-ellipsis-v\" aria-hidden=\"true\"></i>\n                  </div>\n                </a>\n                <div class=\"dropdown-menu dropdown-menu-right mt-10\">\n                  <button class=\"dropdown-item\" [swal]=\"{ title: 'Sei sicuro di volerlo eliminare?', text: 'Non sarà più possibile recuperarlo.', showCancelButton: true }\" (confirm)=\"deleteIt()\">Elimina</button>\n                  <button class=\"dropdown-item\"[swal]=\"{ title: 'Sei sicuro di volerlo archiviare?', text: 'Sarà possibile ripristinarlo successivamente.', showCancelButton: true }\" (confirm)=\"archiveIt()\">Archivia</button>\n                </div>\n              </div>\n            </ng-container>\n          </div>\n          <assignees-list [account_id]=\"account.id\" [ticket]=\"ticket\"></assignees-list>\n          <form #mainInfo=\"ngForm\" novalidate  class=\"form--light ticket-info ticket-info--main\">\n            <div class=\"form-group\" [ngClass]=\"{\n              'has-danger': title.invalid && (title.dirty || title.touched)\n            }\">\n              <label for=\"title\">Titolo </label> <span *ngIf=\"title.invalid && (title.dirty || title.touched)\" class=\"text-danger\">* Campo non valido</span>\n              <input type=\"text\" class=\"form-control\" name=\"title\" [(ngModel)]=\"ticket.title\" #title=\"ngModel\" required (change)=\"updateIt(mainInfo)\" />\n            </div>\n            <div class=\"form-group\" [ngClass]=\"{\n              'has-danger': description.invalid && (description.dirty || description.touched)\n            }\">\n              <label for=\"description\">Descrizione </label> <span *ngIf=\"description.invalid && (description.dirty || description.touched)\" class=\"text-danger\">* Campo non valido</span>\n              <textarea rows=\"10\" class=\"form-control\" name=\"description\" [(ngModel)]=\"ticket.description\" #description=\"ngModel\"></textarea>\n            </div>\n            <div class=\"ticket-info--main__buttons\" #buttons>\n              <button class=\"btn btn-success btn--shadow mr-2\" (click)=\"updateIt(mainInfo)\" [disabled]=\"mainInfo.invalid\">Salva modifiche</button>\n              <button class=\"btn btn-light btn--shadow\" (click)=\"revokeIt()\">Annulla modifiche</button>\n            </div>\n          </form>\n        </div>\n        <ticket-comments-list [account]=\"account\" [ticket_id]=\"ticket_id\" [comments]=\"comments\"></ticket-comments-list>\n        <hr class=\"mboth-40\">\n        <ticket-comments-add [comments]=\"comments\" [account]=\"account\" [reporter]=\"ticket.created_by\" [ticket_id]=\"ticket.id\"></ticket-comments-add>\n      </section>\n      <aside class=\"col-3 pull-right p-all-side-25\">\n        <form #sideInfo=\"ngForm\" novalidate class=\"form--light\">\n          <div class=\"form-group\">\n            <label for=\"status\" class=\"text--cold-grey\">Stato</label>\n            <select class=\"form-control\" name=\"status\" [(ngModel)]=\"ticket.status\" #status=\"ngModel\" (change)=\"onSelectionChange(sideInfo)\">\n              <option value=\"0\">Da lavorare</option>\n              <option value=\"1\">In lavorazione</option>\n              <option value=\"2\">In fase di controllo</option>\n              <option value=\"3\">Terminata</option>\n              <option value=\"4\">Rigettata</option>\n              <option value=\"5\">Non ancora letto</option>\n              <option value=\"6\">Letto</option>\n            </select>\n          </div>\n          <div class=\"form-group\" *ngIf=\"account\">\n            <label for=\"assignee_id\" class=\"text--cold-grey\">Aggiungi assegnatario</label>\n            <select id=\"assignee_id\" class=\"form-control text-capitalize\" ngModel name=\"assignee_id\" #assignee_id=\"ngModel\" (change)=\"addAssignee(assignee_id)\">\n              <option value=\"\" disabled>Seleziona</option>\n              <option *ngFor=\"let account of accounts\" value=\"{{account.id}};{{account.firstname}};{{account.lastname}}\" class=\"text-capitalize\">\n                <!-- <span class=\"avatar radius small mr-3\" [style.background-color]=\"account.avatar_color\"></span> -->\n                {{account.firstname}} {{account.lastname}}\n              </option>\n            </select>\n          </div>\n          <div class=\"form-group\" *ngIf=\"ticket.reporter\">\n            <label for=\"created_by\" class=\"text--cold-grey\">Reporter</label>\n            <div class=\"form-control text-capitalize\">\n              {{ticket.reporter.firstname}} {{ticket.reporter.lastname}}\n            </div>\n          </div>\n          <div class=\"form-group\">\n            <label for=\"expire_at\" class=\"text--cold-grey\">Data di creazione</label>\n            <div class=\"form-control text-capitalize\">\n              {{ticket.created_at | date}}\n            </div>\n          </div>\n          <div class=\"form-group\">\n            <label for=\"expire_at\" class=\"text--cold-grey\">Data di scadenza</label>\n            <div class=\"form-control text-capitalize\">\n              {{ticket.expire_at}}\n            </div>\n          </div>\n        </form>\n        <div class=\"bg--white p-all-side-20 border rounded mt-40\">\n          <div class=\"form-group\">\n            <small>\n              <label for=\"created_at\" class=\"\">Giorni mancanti alla scadenza:</label>\n              <p for=\"created_at\" class=\"text--cold-grey\" *ngIf=\"ticket.expire_at; else notExpireDateSet\">\n                <ng-container *ngIf=\"deadline_at > 0; else expired\">\n                  {{deadline_at}}\n                  <ng-container *ngIf=\"deadline_at == 1; else moreThanOne\">giorno mancante</ng-container>\n                  <ng-template #moreThanOne>giorni mancanti</ng-template>\n                </ng-container>\n                <ng-template #expired><span class=\"badge badge-danger p-all-side-5\">Issue scaduta</span></ng-template>\n              </p>\n              <ng-template #notExpireDateSet>\n                <p class=\"text--cold-grey\">- Data di scadenza non settata</p>\n              </ng-template>\n            </small>\n          </div>\n          <div class=\"form-group\">\n            <small>\n              <label for=\"created_at\" class=\"\">Data di creazione:</label>\n              <p class=\"text--cold-grey mb-0\">- {{created_at}} fa</p>\n            </small>\n          </div>\n          <div class=\"form-group\" *ngIf=\"ticket.updated_at\">\n            <small>\n              <label for=\"updated_at\" class=\"\">Data ultima modifica:</label>\n              <p class=\"text--cold-grey mb-0\">- {{updated_at}} fa</p>\n            </small>\n          </div>\n          <div class=\"form-group\" *ngIf=\"ticket.updated_at\">\n            <small>\n              <label for=\"updated_at\" class=\"\">Ultima modifica effettuata da:</label>\n              <p class=\"text--cold-grey mb-0\">- {{updated_by.firstname}} {{updated_by.lastname}}</p>\n            </small>\n          </div>\n        </div>\n      </aside>\n    </div>\n  </div>\n  <back-button></back-button>\n</div>\n"
+module.exports = "<div class=\"container-fluid p-all-side-40\">\n  <div class=\"alert alert-danger mb-20\" role=\"alert\" *ngIf=\"deadline_at <= 0\">\n    Questa issue è scaduta, ma ancora attiva. Ti consigliamo di archiviarla se non più utilizzata.\n  </div>\n  <div class=\"card light mb-4\">\n    <div class=\"clearfix bg--light-grey rounded\">\n      <section class=\"col-9 pull-left p-all-side-25 bg--white border-right rounded-left rounded-bottom\" style=\"min-height: 810px;\">\n        <div class=\"mb-40\">\n          <div class=\"row d-flex align-items-center\">\n            <div class=\"col\">\n              <p class=\"mb-0\">\n                <i class=\"fa fa-square text-success mr-1\"></i> <span class=\"text-black-50\">TICKET-{{ticket.id}}</span>\n              </p>\n            </div>\n            <!-- *ngIf=\"ticket.reporter.id == account.id || account.profile == 0\" -->\n            <ng-container *ngIf=\"ticket.reporter\">\n              <div class=\"col text-right\" *ngIf=\"ticket.reporter.id == account.id || account.profile == 0\">\n                <a href=\"\" class=\"dropdown-toggle hide-arrow btn btn-main btn--radius text--white\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                  <div class=\"d-inline-flex align-items-center align-middle\">\n                    <i class=\"fa fa-ellipsis-v\" aria-hidden=\"true\"></i>\n                  </div>\n                </a>\n                <div class=\"dropdown-menu dropdown-menu-right mt-10\">\n                  <button class=\"dropdown-item\" [swal]=\"{ title: 'Sei sicuro di volerlo eliminare?', text: 'Non sarà più possibile recuperarlo.', showCancelButton: true }\" (confirm)=\"deleteIt()\">Elimina</button>\n                  <button class=\"dropdown-item\"[swal]=\"{ title: 'Sei sicuro di volerlo archiviare?', text: 'Sarà possibile ripristinarlo successivamente.', showCancelButton: true }\" (confirm)=\"archiveIt()\">Archivia</button>\n                </div>\n              </div>\n            </ng-container>\n          </div>\n          <assignees-list [account_id]=\"account.id\" [ticket]=\"ticket\"></assignees-list>\n          <form #mainInfo=\"ngForm\" novalidate  class=\"form--light ticket-info ticket-info--main\">\n            <div class=\"form-group\" [ngClass]=\"{\n              'has-danger': title.invalid && (title.dirty || title.touched)\n            }\">\n              <label for=\"title\">Titolo </label> <span *ngIf=\"title.invalid && (title.dirty || title.touched)\" class=\"text-danger\">* Campo non valido</span>\n              <input type=\"text\" class=\"form-control\" name=\"title\" [(ngModel)]=\"ticket.title\" #title=\"ngModel\" required (change)=\"updateIt(mainInfo)\" />\n            </div>\n            <div class=\"form-group\" [ngClass]=\"{\n              'has-danger': description.invalid && (description.dirty || description.touched)\n            }\">\n              <label for=\"description\">Descrizione </label> <span *ngIf=\"description.invalid && (description.dirty || description.touched)\" class=\"text-danger\">* Campo non valido</span>\n              <textarea rows=\"10\" class=\"form-control\" name=\"description\" [(ngModel)]=\"ticket.description\" #description=\"ngModel\"></textarea>\n            </div>\n            <div class=\"ticket-info--main__buttons\" #buttons>\n              <button class=\"btn btn-success btn--shadow mr-2\" (click)=\"updateIt(mainInfo)\" [disabled]=\"mainInfo.invalid\">Salva modifiche</button>\n              <button class=\"btn btn-light btn--shadow\" (click)=\"revokeIt()\">Annulla modifiche</button>\n            </div>\n          </form>\n        </div>\n        <ticket-comments-list [account]=\"account\" [ticket_id]=\"ticket_id\" [comments]=\"comments\"></ticket-comments-list>\n        <hr class=\"mboth-40\">\n        <ticket-comments-add [comments]=\"comments\" [account]=\"account\" [reporter]=\"ticket.created_by\" [ticket_id]=\"ticket.id\"></ticket-comments-add>\n      </section>\n      <aside class=\"col-3 pull-right p-all-side-25\">\n        <form #sideInfo=\"ngForm\" novalidate class=\"form--light\">\n          <div class=\"form-group\">\n            <label for=\"status\" class=\"text--cold-grey\">Stato</label>\n            <select class=\"form-control\" name=\"status\" [(ngModel)]=\"ticket.status\" #status=\"ngModel\" (change)=\"onSelectionChange(sideInfo)\">\n              <option value=\"0\">Da lavorare</option>\n              <option value=\"1\">In lavorazione</option>\n              <option value=\"2\">In fase di controllo</option>\n              <option value=\"3\">Terminata</option>\n              <option value=\"4\">Rigettata</option>\n              <option value=\"5\">Non ancora letto</option>\n              <option value=\"6\">Letto</option>\n            </select>\n          </div>\n          <div class=\"form-group\" *ngIf=\"account\">\n            <label for=\"assignee_id\" class=\"text--cold-grey\">Aggiungi assegnatario</label>\n            <select id=\"assignee_id\" class=\"form-control text-capitalize\" ngModel name=\"assignee_id\" #assignee_id=\"ngModel\" (change)=\"addAssignee(assignee_id)\">\n              <option value=\"\" disabled>Seleziona</option>\n              <option *ngFor=\"let account of accounts\" value=\"{{account.id}};{{account.firstname}};{{account.lastname}}\" class=\"text-capitalize\">\n                <!-- <span class=\"avatar radius small mr-3\" [style.background-color]=\"account.avatar_color\"></span> -->\n                {{account.firstname}} {{account.lastname}}\n              </option>\n            </select>\n          </div>\n          <div class=\"form-group\" *ngIf=\"ticket.reporter\">\n            <label for=\"created_by\" class=\"text--cold-grey\">Reporter</label>\n            <div class=\"form-control text-capitalize\">\n              {{ticket.reporter.firstname}} {{ticket.reporter.lastname}}\n            </div>\n          </div>\n          <div class=\"form-group\">\n            <label for=\"expire_at\" class=\"text--cold-grey\">Data di creazione</label>\n            <div class=\"form-control text-capitalize\">\n              {{ticket.created_at | date}}\n            </div>\n          </div>\n          <div class=\"form-group\">\n            <label for=\"expire_at\" class=\"text--cold-grey\">Data di scadenza</label>\n            <div class=\"form-control text-capitalize\">\n              {{ticket.expire_at}}\n            </div>\n          </div>\n        </form>\n        <div class=\"bg--white p-all-side-20 border rounded mt-40\">\n          <div class=\"form-group\">\n            <small>\n              <label for=\"created_at\" class=\"\">Giorni mancanti alla scadenza:</label>\n              <p for=\"created_at\" class=\"text--cold-grey\" *ngIf=\"ticket.expire_at; else notExpireDateSet\">\n                <ng-container *ngIf=\"deadline_at > 0; else expired\">\n                  {{deadline_at}}\n                  <ng-container *ngIf=\"deadline_at == 1; else moreThanOne\">giorno mancante</ng-container>\n                  <ng-template #moreThanOne>giorni mancanti</ng-template>\n                </ng-container>\n                <ng-template #expired><span class=\"badge badge-danger p-all-side-5\">Issue scaduta</span></ng-template>\n              </p>\n              <ng-template #notExpireDateSet>\n                <p class=\"text--cold-grey\">- Data di scadenza non settata</p>\n              </ng-template>\n            </small>\n          </div>\n          <div class=\"form-group\">\n            <small>\n              <label for=\"created_at\" class=\"\">Data di creazione:</label>\n              <p class=\"text--cold-grey mb-0\">- {{created_at}} fa</p>\n            </small>\n          </div>\n          <div class=\"form-group\" *ngIf=\"ticket.updated_at\">\n            <small>\n              <label for=\"updated_at\" class=\"\">Data ultima modifica:</label>\n              <p class=\"text--cold-grey mb-0\">- {{updated_at}} fa</p>\n            </small>\n          </div>\n          <div class=\"form-group\" *ngIf=\"ticket.updated_at\">\n            <small>\n              <label for=\"updated_at\" class=\"\">Ultima modifica effettuata da:</label>\n              <p class=\"text--cold-grey mb-0\">- {{updated_by.firstname}} {{updated_by.lastname}}</p>\n            </small>\n          </div>\n        </div>\n      </aside>\n    </div>\n  </div>\n  <!-- <navigator-prev-next [prev_list]=\"\" [next_list]=\"\"></navigator-prev-next> -->\n  <back-button [text]=\"'Torna alla lista'\"></back-button>\n</div>\n"
 
 /***/ }),
 
@@ -6657,6 +6661,10 @@ var TicketDetailsComponent = /** @class */ (function () {
         // if ticket status is equal to 'rigettato' or 'terminato' archive it
         if (form_copy.status == 3 || form_copy.status == 4) {
             form_copy.archived = true;
+            this.navigation.redirect('/tickets');
+        }
+        else {
+            console.log("diverso da terminato e rigettato");
         }
         var subscription = this.service.update("tickets", query, form_copy).subscribe(function (data) {
             _this.messageService.setMessage('success');
@@ -6835,7 +6843,7 @@ var TicketDetailsComponent = /** @class */ (function () {
 /***/ "./src/app/components/tickets/filter-form/filter-form.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<form #filtering=\"ngForm\" name=\"form\" class=\"filtering form-inline form--light\">\n  <div class=\"form-row align-items-end\">\n    <div class=\"col-auto\" *ngIf=\"account_profile == 0\">\n      <label class=\"justify-content-start mb-10\">Assegnato da</label>\n      <select id=\"created_by\" class=\"filtering__field form-control mb-2\" #created_by [(ngModel)]=\"filter_settings.created_by\" name=\"created_by\" (change)=\"setFilterInStorage(filtering)\">\n        <option value=\"\" disabled>Seleziona</option>\n        <option *ngFor=\"let account of accounts\" value=\"{{account.id}}\" class=\"text-capitalize\">\n          {{account.firstname}} {{account.lastname}}\n        </option>\n        <option value=\"all\">Tutti</option>\n      </select>\n    </div>\n    <div class=\"col-auto\">\n      <label class=\"justify-content-start mb-10\">Assegnato a</label>\n      <select id=\"assignees_id\" class=\"filtering__field form-control mb-2\" [(ngModel)]=\"filter_settings.assignees_id\" name=\"assignees_id\" (change)=\"setFilterInStorage(filtering)\">\n        <option value=\"\" disabled>Seleziona</option>\n        <option *ngFor=\"let account of accounts\" value=\"{{account.id}}\" class=\"text-capitalize\">\n          {{account.firstname}} {{account.lastname}} <span *ngIf=\"account.status == 0\">NA</span>\n        </option>\n        <option value=\"all\">Tutti</option>\n      </select>\n    </div>\n    <div class=\"col-auto\">\n      <label class=\"justify-content-start mb-10\">Stato</label>\n      <select id=\"status\" class=\"filtering__field form-control mb-2\" [(ngModel)]=\"filter_settings.status\" name=\"status\" (change)=\"setFilterInStorage(filtering)\">\n        <option value=\"\" disabled>Seleziona</option>\n        <option value=\"0\">Da lavorare</option>\n        <option value=\"1\">In lavorazione</option>\n        <option value=\"2\">In fase di controllo</option>\n        <ng-container *ngIf=\"archived == true\">\n          <option value=\"3\">Terminata</option>\n          <option value=\"4\">Rigettata</option>\n        </ng-container>\n        <option value=\"5\">Non ancora letto</option>\n        <option value=\"6\">Letto</option>\n      </select>\n    </div>\n    <div class=\"col-auto\">\n      <button type=\"button\" (click)=\"resetFilter(filtering)\" class=\"filtering__btn btn btn-link text--main_color mb-2\">\n        <i class=\"fa fa-times\" aria-hidden=\"true\"></i>\n        Annulla\n      </button>\n    </div>\n  </div>\n</form>\n"
+module.exports = "<form #filtering=\"ngForm\" name=\"form\" class=\"filtering form-inline form--light\">\n  <div class=\"form-row align-items-end\">\n    <div class=\"col-auto\" *ngIf=\"account_profile == 0\">\n      <label class=\"justify-content-start mb-10\">Assegnato da</label>\n      <select id=\"created_by\" class=\"filtering__field form-control\" #created_by [(ngModel)]=\"filter_settings.created_by\" name=\"created_by\" (change)=\"setFilterInStorage(filtering)\">\n        <option value=\"\" disabled>Seleziona</option>\n        <option *ngFor=\"let account of accounts\" value=\"{{account.id}}\" class=\"text-capitalize\">\n          {{account.firstname}} {{account.lastname}}\n        </option>\n        <option value=\"all\">Tutti</option>\n      </select>\n    </div>\n    <div class=\"col-auto\">\n      <label class=\"justify-content-start mb-10\">Assegnato a</label>\n      <select id=\"assignees_id\" class=\"filtering__field form-control\" [(ngModel)]=\"filter_settings.assignees_id\" name=\"assignees_id\" (change)=\"setFilterInStorage(filtering)\">\n        <option value=\"\" disabled>Seleziona</option>\n        <option *ngFor=\"let account of accounts\" value=\"{{account.id}}\" class=\"text-capitalize\">\n          {{account.firstname}} {{account.lastname}} <span *ngIf=\"account.status == 0\">NA</span>\n        </option>\n        <option value=\"all\">Tutti</option>\n      </select>\n    </div>\n    <div class=\"col-auto\">\n      <label class=\"justify-content-start mb-10\">Stato</label>\n      <select id=\"status\" class=\"filtering__field form-control\" [(ngModel)]=\"filter_settings.status\" name=\"status\" (change)=\"setFilterInStorage(filtering)\">\n        <option value=\"\" disabled>Seleziona</option>\n        <option value=\"0\">Da lavorare</option>\n        <option value=\"1\">In lavorazione</option>\n        <option value=\"2\">In fase di controllo</option>\n        <ng-container *ngIf=\"archived == true\">\n          <option value=\"3\">Terminata</option>\n          <option value=\"4\">Rigettata</option>\n        </ng-container>\n        <option value=\"5\">Non ancora letto</option>\n        <option value=\"6\">Letto</option>\n      </select>\n    </div>\n    <div class=\"col-auto\">\n      <button type=\"button\" (click)=\"resetFilter(filtering)\" class=\"filtering__btn btn btn-link text--main_color\">\n        <i class=\"fa fa-times\" aria-hidden=\"true\"></i>\n        Annulla\n      </button>\n    </div>\n  </div>\n</form>\n"
 
 /***/ }),
 
@@ -6968,7 +6976,9 @@ var FilterFormComponent = /** @class */ (function () {
                 }
             }
         }
-        // "&and=(" + "status.neq." + 3 + "," + "status.neq." + 4 + ")" +
+        if (this.archived !== true) {
+            query += "&and=(" + "status.neq." + 3 + "," + "status.neq." + 4 + ")";
+        }
         query += "&order=" + "commented_at.desc" + "&select=*, reporter: accounts(id, firstname, lastname)";
         console.log(query);
         return query;
@@ -7053,7 +7063,7 @@ var FilterFormComponent = /** @class */ (function () {
 /***/ "./src/app/components/tickets/list/list.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid pboth-20 pl-0 pr-0\">\n  <div class=\"d-flex align-items-center justify-content-between mb-20\">\n    <div>\n      <h3 class=\"weight--light flex-fill\">I tuoi tickets</h3>\n      <p>Questa è la lista dei ticket creati, come default visualizzerai tutti i tickets assegnati a te.</p>\n    </div>\n    <div>\n      <a [routerLink]=\"['/tickets/add']\" class=\"btn btn--shadow btn-dark btn__effect--click text-uppercase weight--light d-flex align-items-center pt-10 pb-10\">\n        Aggiungi ticket\n      </a>\n    </div>\n  </div>\n  <div class=\"mb-10\">\n    <filter-form (list)=\"tickets = $event\" (page)=\"p = $event\" [account_profile]=\"account.profile\" [account_id]=\"account.id\" [archived]=\"false\" [filter_store]=\"true\"></filter-form>\n  </div>\n  <div class=\"card light mb-4 p-all-side-25\">\n    <table class=\"table table-hover table-striped avatar-list mb-0\" *ngIf=\"tickets.length; else noCurrentDayTicketList\">\n      <thead class=\"\">\n        <tr>\n          <!-- <th>Ticket N°</th> -->\n          <th>Assegnato a</th>\n          <th>Assegnato da</th>\n          <th>Scadenza</th>\n          <th>Titolo</th>\n          <th>Stato</th>\n          <th></th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr [tickets]=\"tickets\" [ticket]=\"ticket\" [account_id]=\"account.id\"\n          [account_profile]=\"account.profile\"\n          *ngFor=\"let ticket of tickets | paginate: { id: 'tickets-list', itemsPerPage: 10, currentPage: p }\"\n          tickets-list-row>\n        </tr>\n      </tbody>\n    </table>\n    <ng-template #noCurrentDayTicketList>\n      <message-notrecords [message]=\"'Oppsss....Non sono presenti records salvati nel database'\" [icon]=\"'empty_list'\"></message-notrecords>\n    </ng-template>\n    <div class=\"d-flex justify-content-center pt-25\" *ngIf=\"tickets.length >= 10\">\n      <pagination-controls class=\"pagination\" id=\"tickets-list\" previousLabel=\"Precedente\" nextLabel=\"Successivo\" (pageChange)=\"p = $event\"></pagination-controls>\n    </div>\n  </div>\n  <back-button></back-button>\n</div>\n"
+module.exports = "<div class=\"container-fluid pboth-20 pl-0 pr-0\">\n  <div class=\"d-flex align-items-center justify-content-between mb-20\">\n    <div>\n      <h3 class=\"weight--light flex-fill\">I tuoi tickets</h3>\n      <p>Questa è la lista dei ticket creati, come default visualizzerai tutti i tickets assegnati a te.</p>\n    </div>\n    <div>\n      <a [routerLink]=\"['/tickets/add']\" class=\"btn btn--shadow btn-dark btn__effect--click text-uppercase weight--light d-flex align-items-center pt-10 pb-10\">\n        Aggiungi ticket\n      </a>\n    </div>\n  </div>\n  <div class=\"d-flex align-items-end justify-content-between mb-15\">\n    <filter-form (list)=\"tickets = $event\" (page)=\"p = $event\" [account_profile]=\"account.profile\" [account_id]=\"account.id\" [archived]=\"false\" [filter_store]=\"true\"></filter-form>\n    <div>\n      <p class=\"mb-0 pt-10 pb-10\">Numero di tickets <strong>{{tickets.length}}</strong></p>\n    </div>\n  </div>\n  <div class=\"card light mb-4 p-all-side-25\">\n    <table class=\"table table-hover table-striped avatar-list mb-0\" *ngIf=\"tickets.length; else noCurrentDayTicketList\">\n      <thead class=\"\">\n        <tr>\n          <!-- <th>Ticket N°</th> -->\n          <th>Assegnato a</th>\n          <th>Assegnato da</th>\n          <th>Scadenza</th>\n          <th>Titolo</th>\n          <th>Stato</th>\n          <th></th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr [tickets]=\"tickets\" [ticket]=\"ticket\" [account_id]=\"account.id\"\n          [account_profile]=\"account.profile\"\n          *ngFor=\"let ticket of tickets | paginate: { id: 'tickets-list', itemsPerPage: 10, currentPage: p }\"\n          tickets-list-row>\n        </tr>\n      </tbody>\n    </table>\n    <ng-template #noCurrentDayTicketList>\n      <message-notrecords [message]=\"'Oppsss....Non sono presenti records salvati nel database'\" [icon]=\"'empty_list'\"></message-notrecords>\n    </ng-template>\n    <div class=\"d-flex justify-content-center pt-25\" *ngIf=\"tickets.length >= 10\">\n      <pagination-controls class=\"pagination\" id=\"tickets-list\" previousLabel=\"Precedente\" nextLabel=\"Successivo\" (pageChange)=\"p = $event\"></pagination-controls>\n    </div>\n  </div>\n  <back-button></back-button>\n</div>\n"
 
 /***/ }),
 
@@ -7189,6 +7199,7 @@ var TicketListComponent = /** @class */ (function () {
             // query = "and=(" + "status.neq." + 3 + "," + "status.neq." + 4 + ")" + "&assignees_id=cs." + "{" + this.account.id + "}" + "&archived=" + "is.false" + "&order=" + "commented_at.desc" + "&select=*, reporter: accounts(id, firstname, lastname)";
             query = "and=(" + "status.neq." + 3 + "," + "status.neq." + 4 + ")" + "&" + "or=(" + "created_by.eq." + this.account.id + "," + "assignees_id.cs." + "{" + this.account.id + "}" + ")" + "&archived=" + "is.false" + "&order=" + "commented_at.desc" + "&select=*, reporter: accounts(id, firstname, lastname)";
         }
+        //console.log(query);
         var subscription = this.service.getRecords("tickets", query).subscribe(function (data) {
             // console.log(data);
             _this.tickets = data.map(function (ticket) {
@@ -7197,6 +7208,9 @@ var TicketListComponent = /** @class */ (function () {
                 }).filter(function (elem) {
                     if (elem === undefined) {
                         console.log("è undefined");
+                        ticket.avatar_color = "red";
+                        ticket.firstname = "Bracco";
+                        ticket.lastname = "Bracco";
                     }
                     return elem !== undefined;
                 });
@@ -7595,7 +7609,7 @@ var AlertNotrecordsComponent = /** @class */ (function () {
 /***/ "./src/app/components/widgets/back-button/back-button.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<button (click)=\"goBack()\" class=\"btn btn-dark btn--shadow weight--light\">\n  <!-- <i class=\"fa fa-long-arrow-left\" aria-hidden=\"true\"></i> -->\n  Indietro\n</button>\n"
+module.exports = "<button (click)=\"goBack()\" class=\"btn btn-dark btn--shadow weight--light\">\n  <!-- <i class=\"fa fa-long-arrow-left\" aria-hidden=\"true\"></i> -->\n  {{text}}\n</button>\n"
 
 /***/ }),
 
@@ -7627,10 +7641,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var BackButtonComponent = /** @class */ (function () {
     function BackButtonComponent(location) {
         this.location = location;
+        this.text = "Indietro";
     }
     BackButtonComponent.prototype.goBack = function () {
         this.location.back();
     };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* Input */])(),
+        __metadata("design:type", String)
+    ], BackButtonComponent.prototype, "text", void 0);
     BackButtonComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'back-button',
@@ -8071,6 +8090,65 @@ var ModalPromptComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [])
     ], ModalPromptComponent);
     return ModalPromptComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/widgets/navigator/navigator.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row mb-30\">\n  <div class=\"col\">\n    <button class=\"btn btn-dark btn--shadow weight--light\" onclick=\"getPrev()\">precedente</button>\n  </div>\n  <div class=\"col text-right\">\n    <button class=\"btn btn-dark btn--shadow weight--light\" onclick=\"getNext()\">Successivo</button>\n  </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/components/widgets/navigator/navigator.component.scss":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/components/widgets/navigator/navigator.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NavigatorComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var NavigatorComponent = /** @class */ (function () {
+    function NavigatorComponent() {
+        this.list = [];
+        this.prev_list = [];
+        this.next_list = [];
+    }
+    NavigatorComponent.prototype.getPrev = function () { };
+    NavigatorComponent.prototype.getNext = function () { };
+    NavigatorComponent.prototype.ngOnInit = function () {
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* Input */])(),
+        __metadata("design:type", Array)
+    ], NavigatorComponent.prototype, "list", void 0);
+    NavigatorComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'navigator-prev-next',
+            template: __webpack_require__("./src/app/components/widgets/navigator/navigator.component.html"),
+            styles: [__webpack_require__("./src/app/components/widgets/navigator/navigator.component.scss")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], NavigatorComponent);
+    return NavigatorComponent;
 }());
 
 
@@ -9045,6 +9123,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var NavigationService = /** @class */ (function () {
     function NavigationService(router) {
         this.router = router;
+        this.prev = [];
+        this.next = [];
     }
     NavigationService.prototype.redirect = function (redirect_to) {
         this.router.navigate([redirect_to]);
