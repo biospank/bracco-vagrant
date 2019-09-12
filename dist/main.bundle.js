@@ -6672,11 +6672,11 @@ var TicketDetailsComponent = /** @class */ (function () {
             _this.updated_by = _this.account;
             _this.updated_at = _this.timezone.getDistanceInWordsToNow(_this.timezone.getCurrentDate());
             console.log("fine");
+            _this.navigation.redirect('/tickets');
         }, function (err) {
             console.log(err);
             _this.messageService.setMessage('rejected');
         });
-        this.navigation.redirect('/tickets');
         this.sub.add(subscription);
     };
     TicketDetailsComponent.prototype.lastChangeRunBy = function (id) {
