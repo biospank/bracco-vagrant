@@ -6904,13 +6904,21 @@ var FilterFormComponent = /** @class */ (function () {
     }
     FilterFormComponent.prototype.resetFilter = function (data) {
         // let query = "and=(" + "status.neq." + 3 + "," + "status.neq." + 4 + ")" + "&assignees_id=cs." + "{" + this.account_id + "}" + "&archived=is." + this.archived + "&order=" + "commented_at.desc" + "&select=*, reporter: accounts(id, firstname, lastname)";
-        var query = "and=(" + "status.neq." + 3 + "," + "status.neq." + 4 + ")" + "&" + "or=(" + "created_by.eq." + this.account_id + "," + "assignees_id.cs." + "{" + this.account_id + "}" + ")" + "&archived=is." + this.archived + "&order=" + "commented_at.desc" + "&select=*, reporter: accounts(id, firstname, lastname)";
+        var query = "or=(" + "created_by.eq." + this.account_id + "," + "assignees_id.cs." + "{" + this.account_id + "}" + ")" + "&archived=is." + this.archived;
+        if (this.archived === true) {
+            query += "&order=" + "id.desc";
+        }
+        else {
+            query += "and=(" + "status.neq." + 3 + "," + "status.neq." + 4 + ")" + "&order=" + "commented_at.desc";
+        }
+        query += "&select=*, reporter: accounts(id, firstname, lastname)";
         data.reset();
         if (this.filter_store) {
             this.ssService.reset([
                 'filter'
             ]);
         }
+        console.log(query);
         this.sendRequest(query);
     };
     FilterFormComponent.prototype.setFilterInStorage = function (data) {
