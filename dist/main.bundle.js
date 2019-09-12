@@ -6649,7 +6649,6 @@ var TicketDetailsComponent = /** @class */ (function () {
     };
     TicketDetailsComponent.prototype.onSelectionChange = function (form) {
         var _this = this;
-        console.log(form.value);
         var form_copy = Object.assign({}, form.value);
         //let form_copy: any = new Object(form.value);
         delete form_copy['assignee_id'];
@@ -6666,11 +6665,14 @@ var TicketDetailsComponent = /** @class */ (function () {
         else {
             console.log("diverso da terminato e rigettato");
         }
+        console.log(form_copy);
         var subscription = this.service.update("tickets", query, form_copy).subscribe(function (data) {
+            console.log("OK");
             _this.messageService.setMessage('success');
             _this.ticket.read_by = [];
             _this.updated_by = _this.account;
             _this.updated_at = _this.timezone.getDistanceInWordsToNow(_this.timezone.getCurrentDate());
+            console.log("fine");
         }, function (err) {
             console.log(err);
             _this.messageService.setMessage('rejected');
@@ -6909,7 +6911,7 @@ var FilterFormComponent = /** @class */ (function () {
             query += "&order=" + "id.desc";
         }
         else {
-            query += "and=(" + "status.neq." + 3 + "," + "status.neq." + 4 + ")" + "&order=" + "commented_at.desc";
+            query += "&and=(" + "status.neq." + 3 + "," + "status.neq." + 4 + ")" + "&order=" + "commented_at.desc";
         }
         query += "&select=*, reporter: accounts(id, firstname, lastname)";
         data.reset();
