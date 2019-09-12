@@ -6660,7 +6660,6 @@ var TicketDetailsComponent = /** @class */ (function () {
         // if ticket status is equal to 'rigettato' or 'terminato' archive it
         if (form_copy.status == 3 || form_copy.status == 4) {
             form_copy.archived = true;
-            this.navigation.redirect('/tickets');
         }
         else {
             console.log("diverso da terminato e rigettato");
@@ -6677,6 +6676,7 @@ var TicketDetailsComponent = /** @class */ (function () {
             console.log(err);
             _this.messageService.setMessage('rejected');
         });
+        this.navigation.redirect('/tickets');
         this.sub.add(subscription);
     };
     TicketDetailsComponent.prototype.lastChangeRunBy = function (id) {
