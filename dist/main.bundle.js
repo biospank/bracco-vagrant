@@ -6137,7 +6137,7 @@ var TicketCommentAddComponent = /** @class */ (function () {
             "read_by": '{}',
             "commented_at": this.timezone.getCurrentDate()
         };
-        console.log("entrato in aggiorna ticket");
+        //console.log("entrato in aggiorna ticket");
         var query = "id=eq." + this.ticket_id;
         var subscription = this.service.update("tickets", query, obj).subscribe();
         this.sub.add(subscription);
@@ -6658,20 +6658,19 @@ var TicketDetailsComponent = /** @class */ (function () {
         this.ticket.read_by = [];
         var query = "id=eq." + this.ticket.id;
         // if ticket status is equal to 'rigettato' or 'terminato' archive it
-        if (form_copy.status == 3 || form_copy.status == 4) {
-            form_copy.archived = true;
-        }
-        else {
-            console.log("diverso da terminato e rigettato");
-        }
-        console.log(form_copy);
+        // if(form_copy.status == 3 || form_copy.status == 4) {
+        //   form_copy.archived = true;
+        // } else {
+        //   console.log("diverso da terminato e rigettato");
+        // }
+        //console.log(form_copy);
         var subscription = this.service.update("tickets", query, form_copy).subscribe(function (data) {
-            console.log("OK");
+            //console.log("OK");
             _this.messageService.setMessage('success');
             _this.ticket.read_by = [];
             _this.updated_by = _this.account;
             _this.updated_at = _this.timezone.getDistanceInWordsToNow(_this.timezone.getCurrentDate());
-            console.log("fine");
+            //console.log("fine");
             _this.navigation.redirect('/tickets');
         }, function (err) {
             console.log(err);
@@ -6763,7 +6762,7 @@ var TicketDetailsComponent = /** @class */ (function () {
             "status": 6
         };
         if (this.account.id != this.ticket.created_by && this.ticket.status == 5) {
-            console.log("entrato qui riga 331 dettagli.html");
+            //console.log("entrato qui riga 331 dettagli.html");
             this.ticket.status = 6;
             var subscription = this.service.update("tickets", query, status_set).subscribe();
             this.sub.add(subscription);
@@ -6845,7 +6844,7 @@ var TicketDetailsComponent = /** @class */ (function () {
 /***/ "./src/app/components/tickets/filter-form/filter-form.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<form #filtering=\"ngForm\" name=\"form\" class=\"filtering form-inline form--light\">\n  <div class=\"form-row align-items-end\">\n    <div class=\"col-auto\" *ngIf=\"account_profile == 0\">\n      <label class=\"justify-content-start mb-10\">Assegnato da</label>\n      <select id=\"created_by\" class=\"filtering__field form-control\" #created_by [(ngModel)]=\"filter_settings.created_by\" name=\"created_by\" (change)=\"setFilterInStorage(filtering)\">\n        <option value=\"\" disabled>Seleziona</option>\n        <option *ngFor=\"let account of accounts\" value=\"{{account.id}}\" class=\"text-capitalize\">\n          {{account.firstname}} {{account.lastname}}\n        </option>\n        <option value=\"all\">Tutti</option>\n      </select>\n    </div>\n    <div class=\"col-auto\">\n      <label class=\"justify-content-start mb-10\">Assegnato a</label>\n      <select id=\"assignees_id\" class=\"filtering__field form-control\" [(ngModel)]=\"filter_settings.assignees_id\" name=\"assignees_id\" (change)=\"setFilterInStorage(filtering)\">\n        <option value=\"\" disabled>Seleziona</option>\n        <option *ngFor=\"let account of accounts\" value=\"{{account.id}}\" class=\"text-capitalize\">\n          {{account.firstname}} {{account.lastname}} <span *ngIf=\"account.status == 0\">NA</span>\n        </option>\n        <option value=\"all\">Tutti</option>\n      </select>\n    </div>\n    <div class=\"col-auto\">\n      <label class=\"justify-content-start mb-10\">Stato</label>\n      <select id=\"status\" class=\"filtering__field form-control\" [(ngModel)]=\"filter_settings.status\" name=\"status\" (change)=\"setFilterInStorage(filtering)\">\n        <option value=\"\" disabled>Seleziona</option>\n        <option value=\"0\">Da lavorare</option>\n        <option value=\"1\">In lavorazione</option>\n        <option value=\"2\">In fase di controllo</option>\n        <ng-container *ngIf=\"archived == true\">\n          <option value=\"3\">Terminata</option>\n          <option value=\"4\">Rigettata</option>\n        </ng-container>\n        <option value=\"5\">Non ancora letto</option>\n        <option value=\"6\">Letto</option>\n      </select>\n    </div>\n    <div class=\"col-auto\">\n      <button type=\"button\" (click)=\"resetFilter(filtering)\" class=\"filtering__btn btn btn-link text--main_color\">\n        <i class=\"fa fa-times\" aria-hidden=\"true\"></i>\n        Annulla\n      </button>\n    </div>\n  </div>\n</form>\n"
+module.exports = "<form #filtering=\"ngForm\" name=\"form\" class=\"filtering form-inline form--light\">\n  <div class=\"form-row align-items-end\">\n    <div class=\"col-auto\" *ngIf=\"account_profile == 0\">\n      <label class=\"justify-content-start mb-10\">Assegnato da</label>\n      <select id=\"created_by\" class=\"filtering__field form-control\" #created_by [(ngModel)]=\"filter_settings.created_by\" name=\"created_by\" (change)=\"setFilterInStorage(filtering)\">\n        <option value=\"\" disabled>Seleziona</option>\n        <option *ngFor=\"let account of accounts\" value=\"{{account.id}}\" class=\"text-capitalize\">\n          {{account.firstname}} {{account.lastname}}\n        </option>\n        <option value=\"all\">Tutti</option>\n      </select>\n    </div>\n    <div class=\"col-auto\">\n      <label class=\"justify-content-start mb-10\">Assegnato a</label>\n      <select id=\"assignees_id\" class=\"filtering__field form-control\" [(ngModel)]=\"filter_settings.assignees_id\" name=\"assignees_id\" (change)=\"setFilterInStorage(filtering)\">\n        <option value=\"\" disabled>Seleziona</option>\n        <option *ngFor=\"let account of accounts\" value=\"{{account.id}}\" class=\"text-capitalize\">\n          {{account.firstname}} {{account.lastname}} <span *ngIf=\"account.status == 0\">NA</span>\n        </option>\n        <option value=\"all\">Tutti</option>\n      </select>\n    </div>\n    <div class=\"col-auto\">\n      <label class=\"justify-content-start mb-10\">Stato</label>\n      <select id=\"status\" class=\"filtering__field form-control\" [(ngModel)]=\"filter_settings.status\" name=\"status\" (change)=\"setFilterInStorage(filtering)\">\n        <option value=\"\" disabled>Seleziona</option>\n        <option value=\"0\">Da lavorare</option>\n        <option value=\"1\">In lavorazione</option>\n        <option value=\"2\">In fase di controllo</option>\n        <option value=\"3\">Terminata</option>\n        <option value=\"4\">Rigettata</option>\n        <option value=\"5\">Non ancora letto</option>\n        <option value=\"6\">Letto</option>\n      </select>\n    </div>\n    <div class=\"col-auto\">\n      <button type=\"button\" (click)=\"resetFilter(filtering)\" class=\"filtering__btn btn btn-link text--main_color\">\n        <i class=\"fa fa-times\" aria-hidden=\"true\"></i>\n        Annulla\n      </button>\n    </div>\n  </div>\n</form>\n"
 
 /***/ }),
 
@@ -6911,7 +6910,8 @@ var FilterFormComponent = /** @class */ (function () {
             query += "&order=" + "id.desc";
         }
         else {
-            query += "&and=(" + "status.neq." + 3 + "," + "status.neq." + 4 + ")" + "&order=" + "commented_at.desc";
+            // query += "&and=(" + "status.neq." + 3 + "," + "status.neq." + 4 + ")" + "&order=" + "commented_at.desc";
+            query += "&order=" + "commented_at.desc";
         }
         query += "&select=*, reporter: accounts(id, firstname, lastname)";
         data.reset();
@@ -6920,7 +6920,7 @@ var FilterFormComponent = /** @class */ (function () {
                 'filter'
             ]);
         }
-        console.log(query);
+        //console.log(query);
         this.sendRequest(query);
     };
     FilterFormComponent.prototype.setFilterInStorage = function (data) {
@@ -6937,12 +6937,10 @@ var FilterFormComponent = /** @class */ (function () {
         this.sendRequest(this.urlComposition(return_not_empty_params));
     };
     FilterFormComponent.prototype.urlComposition = function (data) {
-        console.log(data);
+        //console.log(data);
         var query = "archived=" + "is." + this.archived;
         if (!this.checkObject.isBlank(data)) {
-            console.log("79");
             if (data["assignees_id"] !== "all" && data["assignees_id"] !== undefined) {
-                console.log("81");
                 var copy = Object.assign({}, data);
                 if (data["created_by"] == "all") {
                     delete copy["created_by"];
@@ -6958,7 +6956,6 @@ var FilterFormComponent = /** @class */ (function () {
                 }
             }
             else if (data["created_by"] !== "all" && data["created_by"] !== undefined) {
-                console.log("95");
                 var copy = Object.assign({}, data);
                 if (data["assignees_id"] == "all") {
                     delete copy["assignees_id"];
@@ -6969,9 +6966,8 @@ var FilterFormComponent = /** @class */ (function () {
                 }
             }
             else {
-                console.log("101");
                 if (data["status"]) {
-                    console.log("contiene l'attributo status");
+                    // console.log("contiene l'attributo status");
                     var obj = {
                         "status": data["status"]
                     };
@@ -6986,9 +6982,9 @@ var FilterFormComponent = /** @class */ (function () {
                 }
             }
         }
-        if (this.archived !== true) {
-            query += "&and=(" + "status.neq." + 3 + "," + "status.neq." + 4 + ")";
-        }
+        // if(this.archived !== true) {
+        //   query += "&and=(" + "status.neq." + 3 + "," + "status.neq." + 4 + ")";
+        // }
         query += "&order=" + "commented_at.desc" + "&select=*, reporter: accounts(id, firstname, lastname)";
         console.log(query);
         return query;
@@ -7207,7 +7203,8 @@ var TicketListComponent = /** @class */ (function () {
         else {
             // "or=(" + "created_by.eq." + this.account_id + "," + "assignees_id.cs." + "{" + this.account_id + "}" + ")"
             // query = "and=(" + "status.neq." + 3 + "," + "status.neq." + 4 + ")" + "&assignees_id=cs." + "{" + this.account.id + "}" + "&archived=" + "is.false" + "&order=" + "commented_at.desc" + "&select=*, reporter: accounts(id, firstname, lastname)";
-            query = "and=(" + "status.neq." + 3 + "," + "status.neq." + 4 + ")" + "&" + "or=(" + "created_by.eq." + this.account.id + "," + "assignees_id.cs." + "{" + this.account.id + "}" + ")" + "&archived=" + "is.false" + "&order=" + "commented_at.desc" + "&select=*, reporter: accounts(id, firstname, lastname)";
+            // query = "and=(" + "status.neq." + 3 + "," + "status.neq." + 4 + ")" + "&" + "or=(" + "created_by.eq." + this.account.id + "," + "assignees_id.cs." + "{" + this.account.id + "}" + ")" + "&archived=" + "is.false" + "&order=" + "commented_at.desc" + "&select=*, reporter: accounts(id, firstname, lastname)";
+            query = "or=(" + "created_by.eq." + this.account.id + "," + "assignees_id.cs." + "{" + this.account.id + "}" + ")" + "&archived=" + "is.false" + "&order=" + "commented_at.desc" + "&select=*, reporter: accounts(id, firstname, lastname)";
         }
         //console.log(query);
         var subscription = this.service.getRecords("tickets", query).subscribe(function (data) {
@@ -7247,7 +7244,7 @@ var TicketListComponent = /** @class */ (function () {
                 data.map(function (elem) {
                     //console.log(elem);
                     if (elem.table == "comments" || elem.table == "tickets") {
-                        console.log("entrato nell if");
+                        //console.log("entrato nell if");
                         _self.getOwnTickets();
                         return true;
                     }
