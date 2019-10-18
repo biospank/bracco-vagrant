@@ -6904,13 +6904,11 @@ var FilterFormComponent = /** @class */ (function () {
         this.getAccounts();
     }
     FilterFormComponent.prototype.resetFilter = function (data) {
-        // let query = "and=(" + "status.neq." + 3 + "," + "status.neq." + 4 + ")" + "&assignees_id=cs." + "{" + this.account_id + "}" + "&archived=is." + this.archived + "&order=" + "commented_at.desc" + "&select=*, reporter: accounts(id, firstname, lastname)";
-        var query = "or=(" + "created_by.eq." + this.account_id + "," + "assignees_id.cs." + "{" + this.account_id + "}" + ")" + "&archived=is." + this.archived;
+        var query = "or=(" + "and(" + "created_by.eq." + this.account_id + "," + "assignees_id.not.cs." + "{" + this.account_id + "})" + "," + "and(" + "assignees_id.cs." + "{" + this.account_id + "}" + "," + "status.neq." + 3 + "," + "status.neq." + 4 + ")" + ")" + "&archived=is." + this.archived;
         if (this.archived === true) {
             query += "&order=" + "id.desc";
         }
         else {
-            // query += "&and=(" + "status.neq." + 3 + "," + "status.neq." + 4 + ")" + "&order=" + "commented_at.desc";
             query += "&order=" + "commented_at.desc";
         }
         query += "&select=*, reporter: accounts(id, firstname, lastname)";
@@ -6937,7 +6935,6 @@ var FilterFormComponent = /** @class */ (function () {
         this.sendRequest(this.urlComposition(return_not_empty_params));
     };
     FilterFormComponent.prototype.urlComposition = function (data) {
-        //console.log(data);
         var query = "archived=" + "is." + this.archived;
         if (!this.checkObject.isBlank(data)) {
             if (data["assignees_id"] !== "all" && data["assignees_id"] !== undefined) {
@@ -6953,6 +6950,11 @@ var FilterFormComponent = /** @class */ (function () {
                     if (data["assignees_id"] != this.account_id) {
                         query += "&" + "created_by=eq." + this.account_id;
                     }
+                    else {
+                        if (data["status"] == undefined) {
+                            query += "&and=(" + "status.neq." + 3 + "," + "status.neq." + 4 + ")";
+                        }
+                    }
                 }
             }
             else if (data["created_by"] !== "all" && data["created_by"] !== undefined) {
@@ -6967,26 +6969,18 @@ var FilterFormComponent = /** @class */ (function () {
             }
             else {
                 if (data["status"]) {
-                    // console.log("contiene l'attributo status");
                     var obj = {
                         "status": data["status"]
                     };
                     query += "&" + this.buildUrl.build(obj);
                 }
+                ;
                 if (this.account_profile != 0) {
-                    // it takes all tickets that I've assigned and all tickets that other has assigned to me
-                    //query += "&" + "or=(" + "created_by.eq." + this.account_id + "," + "assignees_id.cs." + "{" + this.account_id + "}" + ")"
-                    // Only tickets that I've assigned to other people
-                    //query += "&" + "created_by=eq." + this.account_id + "&assignees_id=cs." + "{" + this.account_id + "}";
                     query += "&" + "created_by=eq." + this.account_id;
                 }
             }
         }
-        // if(this.archived !== true) {
-        //   query += "&and=(" + "status.neq." + 3 + "," + "status.neq." + 4 + ")";
-        // }
         query += "&order=" + "commented_at.desc" + "&select=*, reporter: accounts(id, firstname, lastname)";
-        console.log(query);
         return query;
     };
     FilterFormComponent.prototype.sendRequest = function (query) {
@@ -7163,6 +7157,11 @@ var TicketListComponent = /** @class */ (function () {
                     if (data["assignees_id"] != this.account.id) {
                         query += "&" + "created_by=eq." + this.account.id;
                     }
+                    else {
+                        if (data["status"] == undefined) {
+                            query += "&and=(" + "status.neq." + 3 + "," + "status.neq." + 4 + ")";
+                        }
+                    }
                 }
             }
             else if (data["created_by"] !== "all" && data["created_by"] !== undefined) {
@@ -7201,12 +7200,9 @@ var TicketListComponent = /** @class */ (function () {
             this.filter_form.filter_settings = filtering_data;
         }
         else {
-            // "or=(" + "created_by.eq." + this.account_id + "," + "assignees_id.cs." + "{" + this.account_id + "}" + ")"
-            // query = "and=(" + "status.neq." + 3 + "," + "status.neq." + 4 + ")" + "&assignees_id=cs." + "{" + this.account.id + "}" + "&archived=" + "is.false" + "&order=" + "commented_at.desc" + "&select=*, reporter: accounts(id, firstname, lastname)";
-            // query = "and=(" + "status.neq." + 3 + "," + "status.neq." + 4 + ")" + "&" + "or=(" + "created_by.eq." + this.account.id + "," + "assignees_id.cs." + "{" + this.account.id + "}" + ")" + "&archived=" + "is.false" + "&order=" + "commented_at.desc" + "&select=*, reporter: accounts(id, firstname, lastname)";
-            query = "or=(" + "created_by.eq." + this.account.id + "," + "assignees_id.cs." + "{" + this.account.id + "}" + ")" + "&archived=" + "is.false" + "&order=" + "commented_at.desc" + "&select=*, reporter: accounts(id, firstname, lastname)";
+            query = "or=(" + "and(" + "created_by.eq." + this.account.id + "," + "assignees_id.not.cs." + "{" + this.account.id + "})" + "," + "and(" + "assignees_id.cs." + "{" + this.account.id + "}" + "," + "status.neq." + 3 + "," + "status.neq." + 4 + ")" + ")" + "&archived=" + "is.false" + "&order=" + "commented_at.desc" + "&select=*, reporter: accounts(id, firstname, lastname)";
         }
-        //console.log(query);
+        console.log(query);
         var subscription = this.service.getRecords("tickets", query).subscribe(function (data) {
             // console.log(data);
             _this.tickets = data.map(function (ticket) {
