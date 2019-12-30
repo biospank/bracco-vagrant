@@ -6915,7 +6915,7 @@ var FilterFormComponent = /** @class */ (function () {
         data.reset();
         if (this.filter_store) {
             this.ssService.reset([
-                'filter'
+                'filter', 'filter_page_number'
             ]);
         }
         //console.log(query);
@@ -6929,6 +6929,9 @@ var FilterFormComponent = /** @class */ (function () {
                     'key': 'filter',
                     'value': JSON.stringify(return_not_empty_params)
                 }
+            ]);
+            this.ssService.reset([
+                'filter_page_number'
             ]);
         }
         ;
@@ -7063,7 +7066,7 @@ var FilterFormComponent = /** @class */ (function () {
 /***/ "./src/app/components/tickets/list/list.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid pboth-20 pl-0 pr-0\">\n  <div class=\"d-flex align-items-center justify-content-between mb-20\">\n    <div>\n      <h3 class=\"weight--light flex-fill\">I tuoi tickets</h3>\n      <p>Questa è la lista dei ticket creati, come default visualizzerai tutti i tickets assegnati a te.</p>\n    </div>\n    <div>\n      <a [routerLink]=\"['/tickets/add']\" class=\"btn btn--shadow btn-dark btn__effect--click text-uppercase weight--light d-flex align-items-center pt-10 pb-10\">\n        Aggiungi ticket\n      </a>\n    </div>\n  </div>\n  <div class=\"d-flex align-items-end justify-content-between mb-15\">\n    <filter-form (list)=\"tickets = $event\" (page)=\"p = $event\" [account_profile]=\"account.profile\" [account_id]=\"account.id\" [archived]=\"false\" [filter_store]=\"true\"></filter-form>\n    <div>\n      <p class=\"mb-0 pt-10 pb-10\">Numero di tickets <strong>{{tickets.length}}</strong></p>\n    </div>\n  </div>\n  <div class=\"card light mb-4 p-all-side-25\">\n    <table class=\"table table-hover table-striped avatar-list mb-0\" *ngIf=\"tickets.length; else noCurrentDayTicketList\">\n      <thead class=\"\">\n        <tr>\n          <!-- <th>Ticket N°</th> -->\n          <th>Assegnato a</th>\n          <th>Assegnato da</th>\n          <th>Scadenza</th>\n          <th>Titolo</th>\n          <th>Stato</th>\n          <th></th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr [tickets]=\"tickets\" [ticket]=\"ticket\" [account_id]=\"account.id\"\n          [account_profile]=\"account.profile\"\n          *ngFor=\"let ticket of tickets | paginate: { id: 'tickets-list', itemsPerPage: 10, currentPage: p }\"\n          tickets-list-row>\n        </tr>\n      </tbody>\n    </table>\n    <ng-template #noCurrentDayTicketList>\n      <message-notrecords [message]=\"'Oppsss....Non sono presenti records salvati nel database'\" [icon]=\"'empty_list'\"></message-notrecords>\n    </ng-template>\n    <div class=\"d-flex justify-content-center pt-25\" *ngIf=\"tickets.length >= 10\">\n      <pagination-controls class=\"pagination\" id=\"tickets-list\" previousLabel=\"Precedente\" nextLabel=\"Successivo\" (pageChange)=\"p = $event\"></pagination-controls>\n    </div>\n  </div>\n  <back-button></back-button>\n</div>\n"
+module.exports = "<div class=\"container-fluid pboth-20 pl-0 pr-0\">\n  <div class=\"d-flex align-items-center justify-content-between mb-20\">\n    <div>\n      <h3 class=\"weight--light flex-fill\">I tuoi tickets</h3>\n      <p>Questa è la lista dei ticket creati, come default visualizzerai tutti i tickets assegnati a te.</p>\n    </div>\n    <div>\n      <a [routerLink]=\"['/tickets/add']\" class=\"btn btn--shadow btn-dark btn__effect--click text-uppercase weight--light d-flex align-items-center pt-10 pb-10\">\n        Aggiungi ticket\n      </a>\n    </div>\n  </div>\n  <div class=\"d-flex align-items-end justify-content-between mb-15\">\n    <filter-form (list)=\"tickets = $event\" (page)=\"p = $event\" [account_profile]=\"account.profile\" [account_id]=\"account.id\" [archived]=\"false\" [filter_store]=\"true\"></filter-form>\n    <div>\n      <p class=\"mb-0 pt-10 pb-10\">Numero di tickets <strong>{{tickets.length}}</strong></p>\n    </div>\n  </div>\n  <div class=\"card light mb-4 p-all-side-25\">\n    <table class=\"table table-hover table-striped avatar-list mb-0\" *ngIf=\"tickets.length; else noCurrentDayTicketList\">\n      <thead class=\"\">\n        <tr>\n          <!-- <th>Ticket N°</th> -->\n          <th>Assegnato a</th>\n          <th>Assegnato da</th>\n          <th>Scadenza</th>\n          <th>Titolo</th>\n          <th>Stato</th>\n          <th></th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr [tickets]=\"tickets\" [ticket]=\"ticket\" [account_id]=\"account.id\"\n          [account_profile]=\"account.profile\"\n          *ngFor=\"let ticket of tickets | paginate: { id: 'tickets-list', itemsPerPage: 10, currentPage: p }\"\n          tickets-list-row>\n        </tr>\n      </tbody>\n    </table>\n    <ng-template #noCurrentDayTicketList>\n      <message-notrecords [message]=\"'Oppsss....Non sono presenti records salvati nel database'\" [icon]=\"'empty_list'\"></message-notrecords>\n    </ng-template>\n    <div class=\"d-flex justify-content-center pt-25\" *ngIf=\"tickets.length >= 10\">\n      <pagination-controls class=\"pagination\" id=\"tickets-list\" previousLabel=\"Precedente\" nextLabel=\"Successivo\" (pageChange)=\"savePageNumber($event)\"></pagination-controls>\n    </div>\n  </div>\n  <back-button></back-button>\n</div>\n"
 
 /***/ }),
 
@@ -7127,7 +7130,6 @@ var TicketListComponent = /** @class */ (function () {
         this.ticketsService = ticketsService;
         this.eventSourceListenerService = eventSourceListenerService;
         this.accounts = [];
-        this.tickets = [];
         this.sub = new __WEBPACK_IMPORTED_MODULE_1_rxjs_Subscription__["a" /* Subscription */]();
         this.p = 1;
         this.account = JSON.parse(this.lsService.get("account"));
@@ -7140,6 +7142,16 @@ var TicketListComponent = /** @class */ (function () {
             _this.accounts = data;
         });
         this.sub.add(subscription);
+    };
+    TicketListComponent.prototype.savePageNumber = function (number) {
+        console.log(number);
+        this.p = number;
+        this.ssService.set([
+            {
+                'key': 'filter_page_number',
+                'value': JSON.stringify(this.p)
+            }
+        ]);
     };
     TicketListComponent.prototype.urlComposition = function (data) {
         var query = "archived=" + "is.false";
@@ -7202,10 +7214,13 @@ var TicketListComponent = /** @class */ (function () {
         else {
             query = "or=(" + "and(" + "created_by.eq." + this.account.id + "," + "assignees_id.not.cs." + "{" + this.account.id + "})" + "," + "and(" + "assignees_id.cs." + "{" + this.account.id + "}" + "," + "status.neq." + 3 + "," + "status.neq." + 4 + ")" + ")" + "&archived=" + "is.false" + "&order=" + "commented_at.desc" + "&select=*, reporter: accounts(id, firstname, lastname)";
         }
-        console.log(query);
         var subscription = this.service.getRecords("tickets", query).subscribe(function (data) {
             // console.log(data);
-            _this.tickets = data.map(function (ticket) {
+            _this.tickets = data;
+        }, function (err) {
+            console.log(err);
+        }, function () {
+            _this.tickets.map(function (ticket) {
                 ticket.accounts = ticket.assignees_id.map(function (assignee_id) {
                     return _self.accounts.find(function (account) { return assignee_id === account.id; });
                 }).filter(function (elem) {
@@ -7222,13 +7237,16 @@ var TicketListComponent = /** @class */ (function () {
                 }
                 return ticket;
             });
-        }, function (err) {
-            console.log(err);
         });
         this.sub.add(subscription);
     };
     TicketListComponent.prototype.ngOnInit = function () {
         this.getOwnTickets();
+        var page_number = this.ssService.get("filter_page_number");
+        console.log(page_number);
+        if (page_number != "") {
+            this.p = +page_number;
+        }
     };
     TicketListComponent.prototype.ngAfterViewInit = function () {
         var _this = this;
