@@ -6632,7 +6632,8 @@ var TicketDetailsComponent = /** @class */ (function () {
         var _this = this;
         var archived = {
             "archived": true,
-            "updated_by": this.ticket_id
+            "updated_by": this.account.id,
+            "updated_at": this.timezone.getCurrentDate()
         };
         var subscription = this.service.archived("tickets", this.ticket_id, archived).subscribe(function (data) {
             _this.messageService.setMessage('archive');
@@ -7368,6 +7369,7 @@ var TicketListRowComponent = /** @class */ (function () {
             _this.tickets.splice(index, 1);
             _this.messageService.setMessage('archive');
         }, function (err) {
+            _this.messageService.setMessage('rejected');
             console.log(err);
         });
         this.sub.add(subscription);
