@@ -6630,12 +6630,12 @@ var TicketDetailsComponent = /** @class */ (function () {
     };
     TicketDetailsComponent.prototype.archiveIt = function () {
         var _this = this;
-        var archived = {
+        var obj = {
             "archived": true,
             "updated_by": this.account.id,
             "updated_at": this.timezone.getCurrentDate()
         };
-        var subscription = this.service.archived("tickets", this.ticket_id, archived).subscribe(function (data) {
+        var subscription = this.service.archived("tickets", this.ticket_id, obj).subscribe(function (data) {
             _this.messageService.setMessage('archive');
             _this.navigation.redirect("/tickets");
         }, function (err) {
