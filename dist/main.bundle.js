@@ -6845,7 +6845,7 @@ var TicketDetailsComponent = /** @class */ (function () {
 /***/ "./src/app/components/tickets/filter-form/filter-form.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<form #filtering=\"ngForm\" name=\"form\" class=\"filtering form-inline form--light\">\n  <div class=\"form-row align-items-end\">\n    <div class=\"col-auto\" *ngIf=\"account_profile == 0\">\n      <label class=\"justify-content-start mb-10\">Assegnato da</label>\n      <select id=\"created_by\" class=\"filtering__field form-control\" #created_by [(ngModel)]=\"filter_settings.created_by\" name=\"created_by\" (change)=\"setFilterInStorage(filtering)\">\n        <option value=\"\" disabled>Seleziona</option>\n        <option *ngFor=\"let account of accounts\" value=\"{{account.id}}\" class=\"text-capitalize\">\n          {{account.firstname}} {{account.lastname}}\n        </option>\n        <option value=\"all\">Tutti</option>\n      </select>\n    </div>\n    <div class=\"col-auto\">\n      <label class=\"justify-content-start mb-10\">Assegnato a</label>\n      <select id=\"assignees_id\" class=\"filtering__field form-control\" [(ngModel)]=\"filter_settings.assignees_id\" name=\"assignees_id\" (change)=\"setFilterInStorage(filtering)\">\n        <option value=\"\" disabled>Seleziona</option>\n        <option *ngFor=\"let account of accounts\" value=\"{{account.id}}\" class=\"text-capitalize\">\n          {{account.firstname}} {{account.lastname}} <span *ngIf=\"account.status == 0\">NA</span>\n        </option>\n        <option value=\"all\">Tutti</option>\n      </select>\n    </div>\n    <div class=\"col-auto\">\n      <label class=\"justify-content-start mb-10\">Stato</label>\n      <select id=\"status\" class=\"filtering__field form-control\" [(ngModel)]=\"filter_settings.status\" name=\"status\" (change)=\"setFilterInStorage(filtering)\">\n        <option value=\"\" disabled>Seleziona</option>\n        <option value=\"0\">Da lavorare</option>\n        <option value=\"1\">In lavorazione</option>\n        <option value=\"2\">In fase di controllo</option>\n        <option value=\"3\">Terminata</option>\n        <option value=\"4\">Rigettata</option>\n        <option value=\"5\">Non ancora letto</option>\n        <option value=\"6\">Letto</option>\n      </select>\n    </div>\n    <div class=\"col-auto\">\n      <button type=\"button\" (click)=\"resetFilter(filtering)\" class=\"filtering__btn btn btn-link text--main_color\">\n        <i class=\"fa fa-times\" aria-hidden=\"true\"></i>\n        Annulla\n      </button>\n    </div>\n  </div>\n</form>\n"
+module.exports = "<form #filtering=\"ngForm\" name=\"form\" class=\"filtering form-inline form--light\">\n  <div class=\"form-row align-items-end\">\n    <div class=\"col-auto\" *ngIf=\"account_profile == 0\">\n      <label class=\"justify-content-start mb-10\">Assegnato da</label>\n      <select id=\"created_by\" class=\"filtering__field form-control\" #created_by [(ngModel)]=\"filter_settings.created_by\" name=\"created_by\" (change)=\"setFilterInStorage(filtering)\">\n        <option value=\"\" disabled>Seleziona</option>\n        <option *ngFor=\"let account of accounts\" value=\"{{account.id}}\" class=\"text-capitalize\">\n          {{account.firstname}} {{account.lastname}}\n        </option>\n        <option value=\"all\">Tutti</option>\n      </select>\n    </div>\n    <div class=\"col-auto\">\n      <label class=\"justify-content-start mb-10\">Assegnato a</label>\n      <select id=\"assignees_id\" class=\"filtering__field form-control\" [(ngModel)]=\"filter_settings.assignees_id\" name=\"assignees_id\" (change)=\"setFilterInStorage(filtering)\">\n        <option value=\"\" disabled>Seleziona</option>\n        <option *ngFor=\"let account of accounts\" value=\"{{account.id}}\" class=\"text-capitalize\">\n          {{account.firstname}} {{account.lastname}} <span *ngIf=\"account.status == 0\">NA</span>\n        </option>\n        <option value=\"all\">Tutti</option>\n      </select>\n    </div>\n    <div class=\"col-auto\">\n      <label class=\"justify-content-start mb-10\">Stato</label>\n      <select id=\"status\" class=\"filtering__field form-control\" [(ngModel)]=\"filter_settings.status\" name=\"status\" (change)=\"setFilterInStorage(filtering)\">\n        <option value=\"\" disabled>Seleziona</option>\n        <option value=\"0\">Da lavorare</option>\n        <option value=\"1\">In lavorazione</option>\n        <option value=\"2\">In fase di controllo</option>\n        <option value=\"3\">Terminata</option>\n        <option value=\"4\">Rigettata</option>\n        <option value=\"5\">Non ancora letto</option>\n        <option value=\"6\">Letto</option>\n      </select>\n    </div>\n    <div class=\"col-auto\">\n      <label class=\"justify-content-start mb-10\">Ricerca libera</label>\n      <input type=\"text\" class=\"filtering__field form-control\" name=\"free_search_text\" [(ngModel)]=\"filter_settings.free_search_text\" (keyup)=\"setFilterInStorage(filtering)\">\n    </div>\n    <div class=\"col-auto\">\n      <button type=\"button\" (click)=\"resetFilter(filtering)\" class=\"filtering__btn btn btn-link text--main_color\">\n        <i class=\"fa fa-times\" aria-hidden=\"true\"></i>\n        Annulla\n      </button>\n    </div>\n  </div>\n</form>\n"
 
 /***/ }),
 
@@ -6899,7 +6899,8 @@ var FilterFormComponent = /** @class */ (function () {
         this.filter_settings = {
             "created_by": "",
             "assignees_id": "",
-            "status": ""
+            "status": "",
+            "free_search_text": ""
         };
         this.sub = new __WEBPACK_IMPORTED_MODULE_1_rxjs_Subscription__["a" /* Subscription */]();
         this.getAccounts();
@@ -6923,7 +6924,9 @@ var FilterFormComponent = /** @class */ (function () {
         this.sendRequest(query);
     };
     FilterFormComponent.prototype.setFilterInStorage = function (data) {
+        //console.log(data);
         var return_not_empty_params = this.checkObject.getNotEmptyPropertiesValue(data.value);
+        //console.log(return_not_empty_params);
         if (this.filter_store) {
             this.ssService.set([
                 {
@@ -6939,16 +6942,21 @@ var FilterFormComponent = /** @class */ (function () {
         this.sendRequest(this.urlComposition(return_not_empty_params));
     };
     FilterFormComponent.prototype.urlComposition = function (data) {
+        //console.log(data);
         var query = "archived=" + "is." + this.archived;
+        var copy = Object.assign({}, data);
         if (!this.checkObject.isBlank(data)) {
+            if (data["free_search_text"] != "" && data["free_search_text"] != undefined) {
+                query += "&or=(" + "title.ilike." + "*" + data.free_search_text + "*" + "," + "description.ilike." + "*" + data.free_search_text + "*" + ")";
+            }
+            delete copy["free_search_text"];
             if (data["assignees_id"] !== "all" && data["assignees_id"] !== undefined) {
-                var copy = Object.assign({}, data);
                 if (data["created_by"] == "all") {
                     delete copy["created_by"];
                     query += "&" + this.buildUrl.build(copy);
                 }
                 else {
-                    query += "&" + this.buildUrl.build(data);
+                    query += "&" + this.buildUrl.build(copy);
                 }
                 if (this.account_profile != 0) {
                     if (data["assignees_id"] != this.account_id) {
@@ -6962,13 +6970,12 @@ var FilterFormComponent = /** @class */ (function () {
                 }
             }
             else if (data["created_by"] !== "all" && data["created_by"] !== undefined) {
-                var copy = Object.assign({}, data);
                 if (data["assignees_id"] == "all") {
                     delete copy["assignees_id"];
                     query += "&" + this.buildUrl.build(copy);
                 }
                 else {
-                    query += "&" + this.buildUrl.build(data);
+                    query += "&" + this.buildUrl.build(copy);
                 }
             }
             else {
@@ -6985,6 +6992,7 @@ var FilterFormComponent = /** @class */ (function () {
             }
         }
         query += "&order=" + "commented_at.desc" + "&select=*, reporter: accounts(id, firstname, lastname)";
+        console.log(query);
         return query;
     };
     FilterFormComponent.prototype.sendRequest = function (query) {
@@ -7067,7 +7075,7 @@ var FilterFormComponent = /** @class */ (function () {
 /***/ "./src/app/components/tickets/list/list.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid pboth-20 pl-0 pr-0\">\n  <div class=\"d-flex align-items-center justify-content-between mb-20\">\n    <div>\n      <h3 class=\"weight--light flex-fill\">I tuoi tickets</h3>\n      <p>Questa è la lista dei ticket creati, come default visualizzerai tutti i tickets assegnati a te.</p>\n    </div>\n    <div>\n      <a [routerLink]=\"['/tickets/add']\" class=\"btn btn--shadow btn-dark btn__effect--click text-uppercase weight--light d-flex align-items-center pt-10 pb-10\">\n        Aggiungi ticket\n      </a>\n    </div>\n  </div>\n  <div class=\"d-flex align-items-end justify-content-between mb-15\">\n    <filter-form (list)=\"tickets = $event\" (page)=\"p = $event\" [account_profile]=\"account.profile\" [account_id]=\"account.id\" [archived]=\"false\" [filter_store]=\"true\"></filter-form>\n    <div>\n      <p class=\"mb-0 pt-10 pb-10\">Numero di tickets <strong>{{tickets.length}}</strong></p>\n    </div>\n  </div>\n  <div class=\"card light mb-4 p-all-side-25\">\n    <table class=\"table table-hover table-striped avatar-list mb-0\" *ngIf=\"tickets.length; else noCurrentDayTicketList\">\n      <thead class=\"\">\n        <tr>\n          <!-- <th>Ticket N°</th> -->\n          <th>Assegnato a</th>\n          <th>Assegnato da</th>\n          <th>Scadenza</th>\n          <th>Titolo</th>\n          <th>Stato</th>\n          <th></th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr [tickets]=\"tickets\" [ticket]=\"ticket\" [account_id]=\"account.id\"\n          [account_profile]=\"account.profile\"\n          *ngFor=\"let ticket of tickets | paginate: { id: 'tickets-list', itemsPerPage: 10, currentPage: p }\"\n          tickets-list-row>\n        </tr>\n      </tbody>\n    </table>\n    <ng-template #noCurrentDayTicketList>\n      <message-notrecords [message]=\"'Oppsss....Non sono presenti records salvati nel database'\" [icon]=\"'empty_list'\"></message-notrecords>\n    </ng-template>\n    <div class=\"d-flex justify-content-center pt-25\" *ngIf=\"tickets.length >= 10\">\n      <pagination-controls class=\"pagination\" id=\"tickets-list\" previousLabel=\"Precedente\" nextLabel=\"Successivo\" (pageChange)=\"savePageNumber($event)\"></pagination-controls>\n    </div>\n  </div>\n  <back-button></back-button>\n</div>\n"
+module.exports = "<div class=\"container-fluid pboth-20 pl-0 pr-0\">\n  <div class=\"d-flex align-items-center justify-content-between mb-20\">\n    <div>\n      <h3 class=\"weight--light flex-fill\">I tuoi tickets</h3>\n      <p>Questa è la lista dei ticket creati, come default visualizzerai tutti i tickets assegnati a te.</p>\n    </div>\n    <div>\n      <a [routerLink]=\"['/tickets/add']\" class=\"btn btn--shadow btn-dark btn__effect--click text-uppercase weight--light d-flex align-items-center pt-10 pb-10\">\n        Aggiungi ticket\n      </a>\n    </div>\n  </div>\n  <div class=\"d-flex align-items-end justify-content-between mb-15\">\n    <filter-form (list)=\"tickets = $event\" (page)=\"config.currentPage = $event\" [account_profile]=\"account.profile\" [account_id]=\"account.id\" [archived]=\"false\" [filter_store]=\"true\"></filter-form>\n    <div *ngIf=\"tickets\">\n      <p class=\"mb-0 pt-10 pb-10\">Numero di tickets <strong>{{tickets.length}}</strong></p>\n      <!-- <search-form [setDataForRequest]=\"dataForRequestSearchComp\" (results)=\"overWriteTickets($event)\"></search-form> -->\n    </div>\n  </div>\n  <div class=\"card light mb-4 p-all-side-25\">\n    <ng-container *ngIf=\"tickets\">\n      <table class=\"table table-hover table-striped avatar-list mb-0\" *ngIf=\"tickets.length; else noCurrentDayTicketList\">\n        <thead class=\"\">\n          <tr>\n            <!-- <th>Ticket N°</th> -->\n            <th>Assegnato a</th>\n            <th>Assegnato da</th>\n            <th>Scadenza</th>\n            <th>Titolo</th>\n            <th>Stato</th>\n            <th></th>\n          </tr>\n        </thead>\n        <tbody>\n          <tr [tickets]=\"tickets\" [ticket]=\"ticket\" [account_id]=\"account.id\"\n            [account_profile]=\"account.profile\"\n            *ngFor=\"let ticket of tickets | paginate: { id: 'tickets-list', itemsPerPage: 10, currentPage: config.currentPage }\"\n            tickets-list-row>\n          </tr>\n        </tbody>\n      </table>\n    </ng-container>\n    <ng-template #noCurrentDayTicketList>\n      <message-notrecords [message]=\"'Oppsss....Non sono presenti records salvati nel database'\" [icon]=\"'empty_list'\"></message-notrecords>\n    </ng-template>\n    <ng-container *ngIf=\"tickets\">\n      <div class=\"d-flex justify-content-center pt-25\" *ngIf=\"tickets.length >= 10\">\n        <pagination-controls class=\"pagination\" id=\"tickets-list\" previousLabel=\"Precedente\" nextLabel=\"Successivo\" (pageChange)=\"savePageNumber($event)\"></pagination-controls>\n      </div>\n    </ng-container>\n  </div>\n  <back-button></back-button>\n</div>\n"
 
 /***/ }),
 
@@ -7132,10 +7140,52 @@ var TicketListComponent = /** @class */ (function () {
         this.eventSourceListenerService = eventSourceListenerService;
         this.accounts = [];
         this.sub = new __WEBPACK_IMPORTED_MODULE_1_rxjs_Subscription__["a" /* Subscription */]();
-        this.p = 1;
         this.account = JSON.parse(this.lsService.get("account"));
         this.getAccounts();
+        this.config = {
+            id: 'tickets-list',
+            currentPage: 1,
+            itemsPerPage: 10
+        };
+        this.dataForRequestSearchComp = {
+            "table": "tickets",
+            "parameters": ["title", "description"],
+            "condition": "or=(" + "and(" + "created_by.eq." + this.account.id + "," + "assignees_id.not.cs." + "{" + this.account.id + "})" + "," + "and(" + "assignees_id.cs." + "{" + this.account.id + "}" + "," + "status.neq." + 3 + "," + "status.neq." + 4 + ")" + ")" + "&archived=" + "is.false" + "&order=" + "commented_at.desc" + "&select=*, reporter: accounts(id, firstname, lastname)"
+        };
     }
+    TicketListComponent.prototype.overWriteTickets = function (data) {
+        var _self = this;
+        console.log(data);
+        this.tickets = data;
+        this.tickets.map(function (ticket) {
+            ticket.accounts = ticket.assignees_id.map(function (assignee_id) {
+                return _self.accounts.find(function (account) { return assignee_id === account.id; });
+            }).filter(function (elem) {
+                if (elem === undefined) {
+                    ticket.avatar_color = "red";
+                    ticket.firstname = "Bracco";
+                    ticket.lastname = "Bracco";
+                }
+                return elem !== undefined;
+            });
+            if (ticket.expire_at) {
+                ticket.deadline_at = _self.timezone.daysLeftToDeadline(new Date(), ticket.expire_at);
+            }
+            return ticket;
+        });
+        this.resetPagination(data);
+    };
+    TicketListComponent.prototype.resetPagination = function (data) {
+        this.config.currentPage = 1;
+        if (data !== undefined) {
+            if (data.length >= 10) {
+                this.config.itemsPerPage = 10;
+            }
+            else {
+                this.config.itemsPerPage = data.length;
+            }
+        }
+    };
     TicketListComponent.prototype.getAccounts = function () {
         var _this = this;
         var query = "deleted=" + "is.false" + "&status=" + "eq.1" + "&order=" + "id.desc" + "&select=id, firstname, lastname, avatar_color";
@@ -7145,26 +7195,30 @@ var TicketListComponent = /** @class */ (function () {
         this.sub.add(subscription);
     };
     TicketListComponent.prototype.savePageNumber = function (number) {
-        console.log(number);
-        this.p = number;
+        this.config.currentPage = number;
         this.ssService.set([
             {
                 'key': 'filter_page_number',
-                'value': JSON.stringify(this.p)
+                'value': JSON.stringify(this.config.currentPage)
             }
         ]);
     };
     TicketListComponent.prototype.urlComposition = function (data) {
         var query = "archived=" + "is.false";
+        var copy = Object.assign({}, data);
         if (!this.checkObject.isBlank(data)) {
+            if (data["free_search_text"] != "" && data["free_search_text"] != undefined) {
+                console.log("95");
+                query += "&or=(" + "title.ilike." + "*" + data.free_search_text + "*" + "," + "description.ilike." + "*" + data.free_search_text + "*" + ")";
+            }
+            delete copy["free_search_text"];
             if (data["assignees_id"] !== "all" && data["assignees_id"] !== undefined) {
-                var copy = Object.assign({}, data);
                 if (data["created_by"] == "all") {
                     delete copy["created_by"];
                     query += "&" + this.buildUrl.build(copy);
                 }
                 else {
-                    query += "&" + this.buildUrl.build(data);
+                    query += "&" + this.buildUrl.build(copy);
                 }
                 if (this.account.profile != 0) {
                     if (data["assignees_id"] != this.account.id) {
@@ -7178,13 +7232,13 @@ var TicketListComponent = /** @class */ (function () {
                 }
             }
             else if (data["created_by"] !== "all" && data["created_by"] !== undefined) {
-                var copy = Object.assign({}, data);
+                //let copy = Object.assign({}, data);
                 if (data["assignees_id"] == "all") {
                     delete copy["assignees_id"];
                     query += "&" + this.buildUrl.build(copy);
                 }
                 else {
-                    query += "&" + this.buildUrl.build(data);
+                    query += "&" + this.buildUrl.build(copy);
                 }
             }
             else {
@@ -7246,7 +7300,7 @@ var TicketListComponent = /** @class */ (function () {
         var page_number = this.ssService.get("filter_page_number");
         console.log(page_number);
         if (page_number != "") {
-            this.p = +page_number;
+            this.config.currentPage = +page_number;
         }
     };
     TicketListComponent.prototype.ngAfterViewInit = function () {
@@ -8437,6 +8491,7 @@ var SearchService = /** @class */ (function () {
         else {
             url += this.base_url + dataForRequest.table + "?" + dataForRequest.condition;
         }
+        console.log(url);
         var results = this.sendSearch(url);
         return results;
     };
@@ -8457,14 +8512,14 @@ var SearchService = /** @class */ (function () {
 /***/ "./src/app/components/widgets/search-form/search-form.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<form class=\"search\" id=\"search-form\">\n  <div class=\"search__inner\">\n    <input type=\"text\" #searchInput class=\"search__text\" placeholder=\"Cerca\" autofocus>\n    <i class=\"fa fa-search search__helper\"></i>\n    <button class=\"search__empty\" (click)=\"emptyResearch()\">\n      <i class=\"fa fa-close\"></i>\n    </button>\n  </div>\n</form>\n"
+module.exports = "<form class=\"search\" id=\"search-form\">\n  <div class=\"search__inner d-flex align-items-center\">\n    <i class=\"fa fa-search search__helper\"></i>\n    <input type=\"text\" #searchInput class=\"search__text\" placeholder=\"Cerca\" autofocus>\n    <button class=\"search__empty\" (click)=\"emptyResearch()\">\n      <i class=\"fa fa-close\"></i>\n    </button>\n  </div>\n</form>\n"
 
 /***/ }),
 
 /***/ "./src/app/components/widgets/search-form/search-form.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = ".search {\n  border-radius: 4px;\n  background-color: white;\n  border: 1px solid #ced4da; }\n  .search.half {\n    width: 50%; }\n  .search:focus {\n    outline: 0 !important; }\n  .search__inner {\n    position: relative; }\n  .search__empty {\n    cursor: pointer;\n    position: absolute;\n    right: 11px;\n    top: 11px;\n    border: 0;\n    background-color: transparent; }\n  .search__empty:focus {\n      outline: 0 !important; }\n  .search__text {\n    background-color: rgba(255, 255, 255, 0.08);\n    color: black;\n    border: 0;\n    border-radius: 2px;\n    width: 100%;\n    height: 2.9rem;\n    padding-left: 3rem;\n    -webkit-transition: background-color 0.3s, color 0.3s;\n    transition: background-color 0.3s, color 0.3s; }\n  .search__text:focus {\n      outline: 0 !important; }\n  .search__text::-moz-placeholder {\n      color: black;\n      opacity: 1; }\n  .search__text:-ms-input-placeholder {\n      color: black; }\n  .search__text::-webkit-input-placeholder {\n      color: black; }\n  .search__helper {\n    position: absolute;\n    left: 0;\n    top: 0;\n    width: 3rem;\n    height: 100%;\n    font-size: 1.3rem;\n    color: #0094D4;\n    text-align: center;\n    line-height: 2.9rem;\n    cursor: pointer;\n    -webkit-transition: color 0.3s, transform 0.4s;\n    -webkit-transition: color 0.3s, -webkit-transform 0.4s;\n    transition: color 0.3s, -webkit-transform 0.4s;\n    transition: color 0.3s, transform 0.4s;\n    transition: color 0.3s, transform 0.4s, -webkit-transform 0.4s; }\n"
+module.exports = ".search {\n  border-radius: 4px;\n  background-color: white;\n  font-size: 16px;\n  display: table;\n  border: 1px solid #ced4da; }\n  .search.half {\n    width: 50%; }\n  .search:focus {\n    outline: 0 !important; }\n  .search__inner {\n    position: relative; }\n  .search__empty {\n    cursor: pointer;\n    border: 0;\n    padding: 6px 10px 6px 10px;\n    background-color: transparent; }\n  .search__empty:focus {\n      outline: 0 !important; }\n  .search__text {\n    background-color: rgba(255, 255, 255, 0.08);\n    color: black;\n    border: 0;\n    border-radius: 2px;\n    padding: 7px 10px;\n    -webkit-transition: background-color 0.3s, color 0.3s;\n    transition: background-color 0.3s, color 0.3s; }\n  .search__text:focus {\n      outline: 0 !important; }\n  .search__text::-moz-placeholder {\n      color: black;\n      opacity: 1; }\n  .search__text:-ms-input-placeholder {\n      color: black; }\n  .search__text::-webkit-input-placeholder {\n      color: black; }\n  .search__helper {\n    padding: 6px 5px 6px 10px;\n    font-size: 1.3em;\n    color: #0094D4;\n    text-align: center;\n    cursor: pointer;\n    -webkit-transition: color 0.3s, transform 0.4s;\n    -webkit-transition: color 0.3s, -webkit-transform 0.4s;\n    transition: color 0.3s, -webkit-transform 0.4s;\n    transition: color 0.3s, transform 0.4s;\n    transition: color 0.3s, transform 0.4s, -webkit-transform 0.4s; }\n"
 
 /***/ }),
 
