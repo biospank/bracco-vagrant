@@ -1,4 +1,4 @@
-defmodule BraccoPubSub.Repo.Migrations.AddNotifications do
+defmodule BraccoPubSub.Repo.Migrations.AlterTicketStatus do
   use Ecto.Migration
 
   def change do
