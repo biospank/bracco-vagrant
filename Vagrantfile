@@ -15,15 +15,15 @@ Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/xenial64"
   # config.vm.box = "bracco-v1.0"
   config.vm.host_name = "bracco"
-  config.trigger.before :up do |trigger|
-    trigger.info = "Pulling master from origin..."
-    trigger.run = {inline: "git pull origin master"}
+  #config.trigger.before :up do |trigger|
+    #trigger.info = "Pulling master from origin..."
+    #trigger.run = {inline: "git pull origin master"}
     # use gitbash command prompt on windows!!
     # trigger.info = "convert dos2unix shell script..."
     # trigger.run = {inline: "dos2unix postgrest-service.sh"}
     # trigger.run = {inline: "dos2unix nodejs-http-service.sh"}
     # trigger.run = {inline: "dos2unix bracco-pub-sub-service.sh"}
-  end
+  #end
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
