@@ -1,4 +1,4 @@
-defmodule BraccoPubSub.Repo.Migrations.AddFieldsOnCompanies do
+defmodule BraccoPubSub.Repo.Migrations.AddCompaniesFields do
   use Ecto.Migration
 
   def change do

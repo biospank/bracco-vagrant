@@ -1,4 +1,4 @@
-defmodule BraccoPubSub.Repo.Migrations.AddCompanyIdFieldAddressbook do
+defmodule BraccoPubSub.Repo.Migrations.AddAddressbookCompanyIdField do
   use Ecto.Migration
 
   def change do
