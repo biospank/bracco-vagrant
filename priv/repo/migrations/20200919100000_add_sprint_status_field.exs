@@ -3,7 +3,7 @@ defmodule BraccoPubSub.Repo.Migrations.AddSprintPeriodField do
 
   def change do
     alter table(:sprint) do
-      add(:period, :integer)      
+      add(:status, :integer, default: 0)      
     end
   end
 end
