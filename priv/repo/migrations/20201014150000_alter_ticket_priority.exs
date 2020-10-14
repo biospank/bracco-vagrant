@@ -3,7 +3,8 @@ defmodule BraccoPubSub.Repo.Migrations.AlterTicketPriority do
 
   def change do
     alter table(:tickets) do
-      modify(:priority, :integer)
+      remove :priority
+      add(:priority, :integer)
     end
   end
 end
