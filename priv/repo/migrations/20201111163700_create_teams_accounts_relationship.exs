@@ -7,6 +7,6 @@ defmodule BraccoPubSub.Repo.Migrations.CreateTeamsAccountsRelationship do
       add(:account_id, references(:accounts))
     end
     
-    create index(:team_account_idx, [:team_id, :account_id])
+    create index(:teams_accounts, [:team_id, :account_id])
   end
 end
