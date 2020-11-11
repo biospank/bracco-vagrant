@@ -7,7 +7,7 @@ defmodule BraccoPubSub.Repo.Migrations.CreateTeams do
       add(:description, :text)
       add(:company_id, references(:companies))
       add(:created_by, references(:accounts))
-      add(:created_at, :timestamp, default: fragment("now()"))
+      add(:created_at, :timestamp, default: fragment("now()"))      
     end
     
     create index(:teams, [:company_id])
